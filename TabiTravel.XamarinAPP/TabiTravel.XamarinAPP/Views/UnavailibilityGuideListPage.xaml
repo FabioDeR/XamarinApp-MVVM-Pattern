@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.Views.UnavailibilityGuideListPage"
+             Title="Unavailabilities">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+                 IconImageSource="icontoolbarplus"                 
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <StackLayout Padding="20" x:Name="PageContent" IsVisible="false">
+            <ListView ItemsSource="{Binding UnavailabilityGuideList}" ItemSelected="ListView_ItemSelected" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"
+                  SeparatorVisibility="None" HasUnevenRows="True" BackgroundColor="White">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <ViewCell>
+                            <StackLayout>
+                                <Frame Padding="15"
+                                   Margin="0,0,0,20"
+                                   BorderColor="{StaticResource LightGreyColor}"
+                                   CornerRadius="10">
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout Spacing="10"
+                                             HorizontalOptions="StartAndExpand">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Grid ColumnDefinitions="40,*">
+                                                    <Label Text="From "
+                                                   Grid.Column="0"
+                                                           TextColor="{StaticResource GreyColor}"/>
+                                                    <Label Text="{Binding DateStart, StringFormat='{0:dddd, dd MMMM yyyy}'}" TextColor="{StaticResource GreyColor}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   Grid.Column="1"/>
+                                                </Grid>
+
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Grid ColumnDefinitions="40,*">
+                                                    <Label Text="To "
+                                                   Grid.Column="0"/>
+                                                    <Label Text="{Binding DateEnd,StringFormat='{0:dddd, dd MMMM yyyy}'}" TextColor="{StaticResource GreyColor}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   Grid.Column="1"/>
+                                                </Grid>
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <StackLayout>
+                                            <Image Source="editer"
+                                               HeightRequest="18"
+                                               VerticalOptions="CenterAndExpand"
+                                               HorizontalOptions="EndAndExpand"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <!--#region Loader -->
+        <StackLayout x:Name="Loader" 
+                         IsVisible="False" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="FillAndExpand">
+            <ActivityIndicator x:Name="activityIndicator" 
+                                   Color="{StaticResource ThemeColor}" 
+                                   IsRunning="True"
+                                   WidthRequest="45" 
+                                   HeightRequest="45"/>
+        </StackLayout>
+        <!--#endregion-->
+    </StackLayout>
+</ContentPage>

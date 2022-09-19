@@ -1,0 +1,60 @@
+﻿@page "/admin/languagelistoverview"
+@using TabiTravel.UI.Shared.Component
+@layout AdminLayout
+
+<h3 class="my-3">Language list overview</h3>
+
+@if (Loading)
+{
+    <Loader />
+}
+else
+{
+
+    <EditForm Model="FilterAdminPageItem" OnValidSubmit="FilterIso">
+        <div class="form-group row col-md-8 mt-4">
+            <label for="inputFilter" class="col-form-label col-1">Filter</label>
+            <InputText @bind-Value="@FilterAdminPageItem.Filter" class="col-4"></InputText>
+            <button class="btn btn-primary col-1 ms-2" title="search"><span class="oi oi-magnifying-glass"></span></button>
+            <a @onclick="() => LoadList()" class="col-1 pt-2">Reset</a>
+        </div>
+    </EditForm>
+
+    <BtnAddAndCancel AddLink="admin/languageedit" ReturnLink="/" />
+
+    <table class="table table-hover my-4">
+        <thead>
+            <tr>
+                <th class="col-5 h5 font-weight-bold" scope="col">Language <i @onclick="@(() => SortBy("name"))" class="oi oi-elevator"></i></th>
+                <th class="col-5 h5 font-weight-bold" scope="col">ISO-2 Code<i @onclick="@(() => SortBy("iso"))" class="oi oi-elevator"></i></th>
+                <th class="col-2 text-end h5 font-weight-bold" scope="col">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Languages == null)
+            {
+                <tr>
+                    <td class="font-italic">@_message</td>
+                    <td></td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Languages)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.ISOCode</td>
+                        <td class="text-end">
+                            <a class="btn btn-primary" title="Edit" href="admin/languageedit/@item.ISOCode"><span class="oi oi-pencil"></span></a>
+                            <button class="btn btn-danger" title="Delete" @onclick="() => Delete(item.ISOCode)"><span class="oi oi-trash"></span></button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+
+}
+

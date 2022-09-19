@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"           
+             xmlns:local="clr-namespace:TabiTravel.XamarinAPP.Effects"
+             xmlns:converters="clr-namespace:TabiTravel.XamarinAPP.Converter"
+             x:Name="thisPage"
+             x:Class="TabiTravel.XamarinAPP.Views.PoiDetailPage"
+             Title="{Binding Interest.Name}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="ToolBarPOI"
+                 IconImageSource="icontoolbarmore"                 
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    </ContentPage.Resources>
+    <ScrollView>
+        <StackLayout>
+            <StackLayout Padding="0"
+                     Margin="0"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand"
+                     x:Name="PageContent"
+                     IsVisible="false">
+
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <!--#region Image -->
+                    <Frame HeightRequest="260"
+                       WidthRequest="400"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0"
+                       Padding="0">
+                        <Image x:Name="InterestImage"
+                           Source="{Binding Interest.ImageUrl}" 
+                           Aspect="AspectFill" />
+                    </Frame>
+                    <!--#endregion-->
+                    <StackLayout Padding="15">
+
+                        <!--#region Categories Area -->
+                        <FlexLayout x:Name="CategoriesArea"
+                                    Wrap="Wrap"
+                                    Direction="Row"
+                                    JustifyContent="Start"         
+                                    BindableLayout.ItemsSource="{Binding CategoryListDetail}"
+                                    Margin="0,0,0,10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image Source="iconprimarylabel"
+                                               HeightRequest="12"/>
+                                        <Label Margin="0,0,20,0" 
+                                               TextColor="{StaticResource ThemeColor}"
+                                               FontAttributes="Bold"
+                                               FontSize="12" Text="{Binding Name}"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                        <!--#endregion-->
+
+
+                        <!--#region Description -->
+                        <StackLayout x:Name="ContentArea">
+                            <Label Text="Description" 
+                               TextColor="{StaticResource DarkGreyColor}" 
+                               FontSize="16" 
+                               FontAttributes="Bold" />
+                            <Label Text="{Binding Content}" 
+                                   TextColor="{StaticResource GreyColor}"
+                                   Margin="0,0,0,20" />
+                        </StackLayout>
+                        <!--#endregion-->
+                        <StackLayout x:Name="FreeLocationLabel" 
+                                     Orientation="Horizontal">
+                            <Image Source="tent" HeightRequest="14"/>
+                            <Label TextColor="{StaticResource GreyColor}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="This POI accepts up to "/>
+                                        <Span Text="{Binding Interest.EmplacementAvailable}"
+                                              FontAttributes="Bold"/>
+                                        <Span Text=" tent(s)/vehicle(s) spaces."/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+
+                            </Label>
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout" Binding="{Binding Interest.EmplacementAvailable, Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger  TargetType="StackLayout" Binding="{Binding Interest.EmplacementAvailable}" Value="0">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout x:Name="InfoBlock" Padding="0,10,0,10" Margin="0,-5" BackgroundColor="#12C3C3C3">
+                        <FlexLayout JustifyContent="SpaceAround">
+                            <StackLayout IsVisible="{Binding Interest.IsFree}"
+                                     WidthRequest="85">
+                                <Image Source="euro" HeightRequest="22"/>
+                                <Label Text="Free Access"
+                                   HorizontalTextAlignment="Center"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource GreyColor}"/>
+                            </StackLayout>
+                            <StackLayout x:Name="ShowTime" 
+                                     WidthRequest="85">
+                                <Image Source="time" HeightRequest="22"/>
+                                <Label FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="{StaticResource GreyColor}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="~"/>
+                                            <Span Text="{Binding Interest.EstimatedTime}"/>
+                                            <Span Text=" '"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                        </FlexLayout>
+                    </StackLayout>
+
+
+
+                    <StackLayout Padding="15">
+
+                        <!--#region Opening -->
+                        <StackLayout x:Name="OpeningArea" 
+                                 Margin="0,0,0,20">
+                            <Label Text="Opening" 
+                               TextColor="{StaticResource DarkGreyColor}" 
+                               FontSize="16" 
+                               FontAttributes="Bold" />
+
+                            <Grid RowDefinitions="Auto,16"
+                          ColumnDefinitions="*,*,*,*,*,*,*"
+                          Margin="0,5,0,20">
+
+                                <Label Text="Mo."
+                                       FontAttributes="Bold"
+                                       Grid.Row="0"
+                                       Grid.Column="0"
+                                       HorizontalOptions="Center"
+                                       TextColor="{StaticResource GreyColor}"/>
+                                <Image Source="check"
+                               IsVisible="{Binding Interest.IsMonday}"
+                               Grid.Row="1"
+                               Grid.Column="0"/>
+
+                                <Label Text="Tu."
+                                       FontAttributes="Bold"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       HorizontalOptions="Center"
+                                       TextColor="{StaticResource GreyColor}"        />
+                                <Image Source="check"
+                               IsVisible="{Binding Interest.IsTuesday}"
+                               Grid.Row="1"
+                               Grid.Column="1"/>
+
+                                <Label Text="We."
+                                       FontAttributes="Bold"
+                                       Grid.Row="0"
+                                       Grid.Column="2"
+                                       HorizontalOptions="Center"
+                                       TextColor="{StaticResource GreyColor}"/>
+                                <Image Source="check"
+                               IsVisible="{Binding Interest.IsWednesday}"
+                               Grid.Row="1"
+                               Grid.Column="2"/>
+
+                                <Label Text="Th."
+                                       FontAttributes="Bold"
+                                       Grid.Row="0"
+                                       Grid.Column="3"
+                                       HorizontalOptions="Center"
+                                       TextColor="{StaticResource GreyColor}"/>
+                                <Image Source="check"
+                               IsVisible="{Binding Interest.IsThursday}"
+                               Grid.Row="1"
+                               Grid.Column="3"/>
+
+                                <Label Text="Fr."
+                                       FontAttributes="Bold"
+                                       Grid.Row="0"
+                                       Grid.Column="4"
+                                       HorizontalOptions="Center"
+                                       TextColor="{StaticResource GreyColor}"/>
+                                <Image Source="check"
+                               IsVisible="{Binding Interest.IsFriday}"
+                               Grid.Row="1"
+                               Grid.Column="4"/>
+
+                                <Label Text="Sa."
+                                       FontAttributes="Bold"
+                                       Grid.Row="0"
+                                       Grid.Column="5"
+                                       HorizontalOptions="Center"
+                                       TextColor="{StaticResource GreyColor}"/>
+                                <Image Source="check"
+                               IsVisible="{Binding Interest.IsSaturday}"
+                               Grid.Row="1"
+                               Grid.Column="5"/>
+
+                                <Label Text="Su."
+                                       FontAttributes="Bold"
+                                       Grid.Row="0"
+                                       Grid.Column="6"
+                                       HorizontalOptions="Center"
+                                       TextColor="{StaticResource GreyColor}"/>
+                                <Image Source="check"
+                               IsVisible="{Binding Interest.IsSunday}"
+                               Grid.Row="1"
+                               Grid.Column="6"/>
+
+                            </Grid>
+
+                            <Label x:Name="ScheduleArea"
+                                   Text="{Binding Interest.Schedule}"
+                                   TextColor="{StaticResource GreyColor}"/>
+
+                        </StackLayout>
+                        <!--#endregion-->
+
+                        <!--#region Pricing -->
+                        <StackLayout x:Name="PricingArea"  
+                                     Margin="0,0,0,20">
+
+                            <Label Text="Pricing" 
+                                   TextColor="{StaticResource DarkGreyColor}" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+
+                            <StackLayout>
+
+
+                                <StackLayout x:Name="PricingAdultLabel"
+                                         Orientation="Horizontal">
+                                    <Image Source="labeliconadult" 
+                                       HeightRequest="14"/>
+                                    <Label TextColor="{StaticResource GreyColor}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Adult (+12) : "/>
+                                                <Span Text="{Binding Interest.PricePerAdult}"/>
+                                                <Span Text=" €"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout x:Name="PricingChildLabel"
+                                             Orientation="Horizontal">
+                                    <Image Source="labeliconchildren" HeightRequest="14"/>
+                                    <Label TextColor="{StaticResource GreyColor}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Children (-12) : "/>
+                                                <Span Text="{Binding Interest.PricePerChild}"/>
+                                                <Span Text=" €"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout x:Name="PricingVehiculeLabel"
+                                             Orientation="Horizontal">
+                                    <Image Source="labeliconvehicule" HeightRequest="14"/>
+                                    <Label TextColor="{StaticResource GreyColor}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Vehicule : "/>
+                                                <Span Text="{Binding Interest.PricePerVehicule}"/>
+                                                <Span Text=" €"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+
+                            </StackLayout>
+                        </StackLayout>
+                        <!--#endregion-->
+
+                        <!--#region Address -->
+                        <StackLayout x:Name="AddressArea"
+                                 Margin="0,0,0,20">
+                            <Label Text="Address" 
+                               TextColor="{StaticResource DarkGreyColor}" 
+                               FontSize="16" 
+                               FontAttributes="Bold" />
+                            <Label x:Name="AddressLabel"
+                                   Text="{Binding Interest.Address}" 
+                                   Margin="0,0,0,-5"
+                                   TextColor="{StaticResource GreyColor}"/>
+                            <StackLayout Orientation="Horizontal" Margin="0,0,0,-5">
+                                <Label x:Name="ZipLabel"
+                                       TextColor="{StaticResource GreyColor}"
+                                       Text="{Binding Interest.ZipCode}"/>
+                                <Label x:Name="CityLabel" 
+                                       TextColor="{StaticResource GreyColor}"
+                                       Text="{Binding Interest.City}"/>
+                            </StackLayout>
+                            <Label x:Name="CountryLabel"
+                                   TextColor="{StaticResource GreyColor}"
+                                   IsVisible="True"
+                                   Text="{Binding CountryName}"
+                                   Margin="0,0,0,-5"/>
+                        </StackLayout>
+                        <!--#endregion-->
+                        <!--#region Accessibility -->
+                        <StackLayout x:Name="AccessibilityArea">
+                            <Label Text="Accessibility" 
+                                   TextColor="{StaticResource DarkGreyColor}" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+                            <FlexLayout Direction="Row" 
+                                    Wrap="Wrap"
+                                    Margin="0,0,0,20" >
+                                <StackLayout IsVisible="{Binding Interest.IsPRMFriendly}" 
+                                         Spacing="5" 
+                                         Padding="0,0,20,0" 
+                                         Orientation="Horizontal">
+                                    <Image Source="labeliconwheelchair" 
+                                       HeightRequest="14"/>
+                                    <Label Text="PRM Friendly" 
+                                           VerticalTextAlignment="Center"
+                                           TextColor="{StaticResource GreyColor}"/>
+                                </StackLayout>
+                                <StackLayout IsVisible="{Binding Interest.IsChildFriendly}" 
+                                         Spacing="5" 
+                                         Padding="0,0,20,0" 
+                                         Orientation="Horizontal">
+                                    <Image Source="labeliconkid" 
+                                       HeightRequest="14"/>
+                                    <Label Text="Children Friendly"
+                                           TextColor="{StaticResource GreyColor}"
+                                       VerticalTextAlignment="Center" />
+                                </StackLayout>
+                                <StackLayout IsVisible="{Binding Interest.IsStrollerFriendly}" 
+                                         Spacing="5" 
+                                         Padding="0,0,20,0" 
+                                         Orientation="Horizontal">
+                                    <Image Source="labeliconstroller" 
+                                       HeightRequest="14"/>
+                                    <Label Text="Stroller Friendly" 
+                                           TextColor="{StaticResource GreyColor}"
+                                       VerticalTextAlignment="Center" />
+                                </StackLayout>
+                                <StackLayout IsVisible="{Binding Interest.IsAnimalFriendly}" 
+                                         Spacing="5" 
+                                         Padding="0,0,20,0" 
+                                         Orientation="Horizontal">
+                                    <Image Source="labeliconpet" 
+                                       HeightRequest="14"/>
+                                    <Label Text="Pet Friendly" 
+                                           TextColor="{StaticResource GreyColor}"
+                                       VerticalTextAlignment="Center" />
+                                </StackLayout>
+                            </FlexLayout>
+                        </StackLayout>
+                        <!--#endregion-->
+                        <!--#region Informations -->
+                        <StackLayout x:Name="InformationsArea">
+                            <Label Text="Informations" 
+                                   TextColor="{StaticResource DarkGreyColor}" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold" />
+
+                            <StackLayout x:Name="PhoneLabel" 
+                                         Spacing="5"  
+                                         Orientation="Horizontal">
+                                <Image Source="labeliconphone" 
+                                       HeightRequest="14"/>
+                                <local:PhoneLabel Text="{Binding Interest.Phone}"
+                                                  PhoneNumber="{Binding Interest.Phone}"
+                                                  VerticalTextAlignment="Center"/>
+                            </StackLayout>
+
+                            <StackLayout x:Name="EmailLabel"
+                                         Spacing="5"  
+                                         Orientation="Horizontal">
+                                <Image Source="labeliconmail" 
+                                       HeightRequest="14"/>
+                                <local:EmailLabel Text="{Binding Interest.Email}"
+                                                  Mail="{Binding Interest.Email}"
+                                                  VerticalTextAlignment="Center"/>
+                            </StackLayout>
+                            <StackLayout x:Name="WebsiteLabel" 
+                                         Spacing="5" 
+                                         Orientation="Horizontal"
+                                         Margin="0,0,0,20">
+                                <Image Source="labeliconurl" 
+                                       HeightRequest="14"/>
+                                <local:HyperlinkLabel Text="Visit the website"
+                                                      Url="{Binding Interest.Url}"
+                                                      VerticalTextAlignment="Center"/>
+
+                            </StackLayout>
+                        </StackLayout>
+                        <!--#endregion-->
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <!--#region Loader -->
+            <StackLayout x:Name="Loader" 
+                         IsVisible="False" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="FillAndExpand">
+                <ActivityIndicator x:Name="activityIndicator" 
+                                   Color="{StaticResource ThemeColor}" 
+                                   IsRunning="True"
+                                   WidthRequest="45" 
+                                   HeightRequest="45"/>
+            </StackLayout>
+            <!--#endregion-->
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

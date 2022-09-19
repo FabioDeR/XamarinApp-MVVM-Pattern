@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:TabiTravel.XamarinAPP.Converter" xmlns:effects="clr-namespace:TabiTravel.XamarinAPP.Effects"
+             x:Class="TabiTravel.XamarinAPP.Views.PreBookingPage"
+             Title="Binding Tour Name">
+    <ContentPage.Resources>
+        <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Padding="0"
+                     Margin="0"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand">
+            <!-- ::: MAIN ::: -->
+            <StackLayout VerticalOptions="FillAndExpand">
+
+                <Frame HeightRequest="260"
+                       WidthRequest="400"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0"
+                       Padding="0">
+                    <!-- BINDING TOUR IMAGE URL -->
+                    <Image Source="{Binding StepListOverviewVM.ImageUrl}"
+                           BackgroundColor="Silver"
+                           Aspect="AspectFill" />
+                </Frame>
+                <StackLayout Padding="15">
+                    <FlexLayout JustifyContent="SpaceBetween"
+                                Margin="0,0,0,-10">
+                        <!-- BINDING TOUR NAME -->
+                        <Label Text="{Binding StepListOverviewVM.TourName}" 
+                               FontSize="16" 
+                               TextColor="{StaticResource DarkGreyColor}" 
+                               FontAttributes="Bold" />
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="iconpingray" HeightRequest="12"/>
+                            <Label Margin="-2,1,0,0"
+                                   FontSize="14"
+                                   TextColor="{StaticResource GreyColor}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <!-- BINDING TOUR CITY + COUNTRY -->
+                                        <Span Text="{Binding StepListOverviewVM.CountryName}"/>
+                                        <Span Text=", "/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding StepListOverviewVM.City, Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                        <Setter Property="IsVisible" Value="False"/>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Label Margin="-2,2,0,0"
+                                   FontSize="14"
+                                   Text="Belgium"
+                                   TextColor="{StaticResource GreyColor}"/>
+                        </StackLayout>
+                    </FlexLayout>
+                    <!-- BINDING TOUR CONTENT -->
+                    <Label Margin="0,20" Text="{Binding StepListOverviewVM.TourContent}" TextColor="{StaticResource GreyColor}"/>
+
+                    <StackLayout>
+                        <StackLayout Margin="0,0,0,20">
+                            <StackLayout Margin="0,0,0,10">
+                                <Label Text="When would you like to book this tour ?"
+                                       TextColor="{StaticResource GreyColor}"
+                                       FontAttributes="Bold"
+                                       FontSize="16"/>
+                            </StackLayout>
+                            <StackLayout>
+                                <Grid RowDefinitions="Auto, Auto" 
+                                          ColumnDefinitions="*">
+                                    <Label Text="Date"
+                                               FontSize="14"
+                                               TextColor="{StaticResource LightGreyColor}" 
+                                               Grid.Row="0" 
+                                               Grid.Column="0" 
+                                               Margin="5,0,0,-14" />
+                                    <DatePicker     x:Name="DateStartPicker"
+                                                    TextColor="{StaticResource DarkGreyColor}"
+                                                    Date="{Binding PreBookingVM.DateStart}"
+                                                    Format="D"                                                    
+                                                    FontSize="16" 
+                                                    Grid.Row="1"
+                                                    Grid.Column="0" 
+                                                    Margin="0,0,0,-8">
+                                    </DatePicker>
+                                </Grid>
+                            </StackLayout>
+                        </StackLayout>
+
+
+                        <StackLayout Margin="0,0,0,20">
+                            <StackLayout Margin="0,0,0,10">
+                                <Label Text="How many people ?"
+                                       TextColor="{StaticResource GreyColor}"
+                                       FontAttributes="Bold"
+                                       FontSize="16"/>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal"
+                                         Margin="0,0,0,10">
+
+                                <StackLayout HorizontalOptions="Start"
+                                             VerticalOptions="Center">
+                                    <Label Text="Adults (+12)"
+                                           TextColor="{StaticResource GreyColor}"/>
+                                </StackLayout>
+
+                                <StackLayout HorizontalOptions="EndAndExpand">
+                                    <Grid ColumnDefinitions="30,30,30">
+                                        <ImageButton Source="btnminusdisabled"
+                                                     x:Name="BtnMinusAdult"
+                                                     BackgroundColor="Transparent"
+                                                     Grid.Column="0"
+                                                     Clicked="AdultMinusButton_Clicked"
+                                                     IsEnabled="False">
+                                        </ImageButton>
+                                        <Label x:Name="AdultNumberLabel"
+                                               Text="{Binding AdultNumber}"
+                                               FontSize="Medium"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center"
+                                               Grid.Column="1"
+                                               TextColor="{StaticResource DarkGreyColor}"/>
+                                        <ImageButton Source="btnplus" 
+                                                     x:Name="BtnPlusAdult"
+                                                     BackgroundColor="Transparent"
+                                                     Grid.Column="2"
+                                                     Clicked="AdultPlusButton_Clicked">
+                                        </ImageButton>
+                                    </Grid>
+                                </StackLayout>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+
+                                <StackLayout HorizontalOptions="Start"
+                                             VerticalOptions="Center">
+                                    <Label Text="Children (-12)"
+                                           TextColor="{StaticResource GreyColor}"/>
+                                </StackLayout>
+
+                                <StackLayout HorizontalOptions="EndAndExpand">
+                                    <Grid ColumnDefinitions="30,30,30">
+                                        <ImageButton Source="btnminusdisabled"
+                                                     x:Name="BtnMinusChild"
+                                                     BackgroundColor="Transparent"
+                                                     Grid.Column="0"
+                                                     Clicked="ChildMinusButton_Clicked"
+                                                     IsEnabled="False">
+                                        </ImageButton>
+                                        <Label x:Name="ChildNumberLabel"
+                                               Text="{Binding ChildNumber}"
+                                               FontSize="Medium"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center"
+                                               Grid.Column="1"
+                                               TextColor="{StaticResource DarkGreyColor}"/>
+                                        <ImageButton Source="btnplus" 
+                                                     x:Name="BtnPlusChild"
+                                                     BackgroundColor="Transparent"
+                                                     Grid.Column="2"
+                                                     Clicked="ChildPlusButton_Clicked">
+                                        </ImageButton>
+                                    </Grid>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout Margin="0,0,0,20">
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout" Binding="{Binding StepListOverviewVM.IsShowEmplacement}" Value="False">
+                                    <Setter Property="IsVisible" Value="false"/>
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                            <StackLayout Margin="0,0,0,10">
+                                <Label Text="Number of pitches needed for the night ?"
+                                       TextColor="{StaticResource GreyColor}"
+                                       FontAttributes="Bold"
+                                       FontSize="16"/>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+
+                                <StackLayout HorizontalOptions="Start"
+                                             VerticalOptions="Center">
+                                    <Label Text="Tents / Campervans / Motorhomes"
+                                           TextColor="{StaticResource GreyColor}"/>
+                                </StackLayout>
+
+                                <StackLayout HorizontalOptions="EndAndExpand">
+                                    
+                                    <Grid ColumnDefinitions="30,30,30">
+                                        <ImageButton Source="btnminusdisabled"
+                                                     x:Name="BtnMinusEmplacement"
+                                                     BackgroundColor="Transparent"
+                                                     Grid.Column="0"
+                                                     Clicked="EmplacementMinusButton_Clicked"
+                                                     IsEnabled="False">
+                                        </ImageButton>
+                                        <Label x:Name="EmplacementNumberLabel"
+                                               Text="{Binding EmplacementNumber}"
+                                               FontSize="Medium"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center"
+                                               Grid.Column="1"
+                                               TextColor="{StaticResource DarkGreyColor}"/>
+                                        <ImageButton Source="btnplus" 
+                                                     x:Name="BtnPlusEmplacement"
+                                                     BackgroundColor="Transparent"
+                                                     Grid.Column="2"
+                                                     Clicked="EmplacementPlusButton_Clicked">
+                                        </ImageButton>
+                                    </Grid>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+
+                    </StackLayout>
+
+                    <StackLayout IsVisible="False" Orientation="Horizontal" Spacing="0" Margin="0,0,0,10">
+                        <StackLayout>
+                            <BoxView WidthRequest="4"
+                                     HeightRequest="80"
+                                     BackgroundColor="{StaticResource WarningColor}"/>
+                        </StackLayout>
+                        <StackLayout BackgroundColor="#FFF7F7" Padding="10">
+                            <ListView ItemsSource="{Binding ErrorMessages}" HeightRequest="60"
+                              SeparatorVisibility="None" HasUnevenRows="True">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Label TextColor="{StaticResource WarningColor}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="●  "/>
+                                                        <Span Text="{Binding .}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                        <StackLayout BackgroundColor="#FFF7F7" Padding="10" HeightRequest="60">
+                            <Image Source="warning"
+                                   HeightRequest="24"
+                                   VerticalOptions="CenterAndExpand"/>
+                        </StackLayout>
+                        <StackLayout.Triggers>
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding IsErrorListVisible}" Value="true">
+                                <Setter Property="IsVisible" Value="true"/>
+                            </DataTrigger>
+                        </StackLayout.Triggers>
+                    </StackLayout>
+                </StackLayout>
+
+
+                <StackLayout VerticalOptions="EndAndExpand"
+                             Padding="15,0,15,30">
+                    <Button Text="Send"
+                            TextColor="White"
+                            Command="{Binding Post}"
+                            BackgroundColor="{StaticResource ThemeColor}"
+                            FontAttributes="Bold" 
+                            CornerRadius="5"/>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

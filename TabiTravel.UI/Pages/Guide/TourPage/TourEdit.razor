@@ -1,0 +1,64 @@
+﻿@page "/guide/touredit"
+@page "/guide/touredit/{Id}"
+@using TabiTravel.UI.Shared.Component
+@layout GuideLayout
+
+
+<h3>Tour Edit</h3>
+<div class="form-group col-md-6">
+
+
+        <EditForm Model="@Item.Tour" OnValidSubmit="@HandleValidRequest">
+
+            <label class="mt-3 col-6" for="inputName">Name <span class="text-danger ml-1">*</span></label>
+            <InputText class="form-control" @bind-Value="@Item.Tour.Name" id="inputName"></InputText>
+            <ValidationMessage For="@(() => Item.Tour.Name)" />
+
+            <label for="inputLogo" class="mt-3">Picture</label>
+            <InputFile id="inputPicture" class="custom-file" OnChange="@SelectedImage" accept="image/jpeg,image/x-png" />
+
+            <p for="inputLogo" class="mt-3">Picture Preview : </p>
+            <img src="@Item.Tour.ImageUrl" alt="Logo Image" width="500" height="300" class="col-7">
+
+
+            <label class="mt-3 col-6" for="inputDescription">Description</label>
+            <InputTextArea class="form-control" @bind-Value="@Item.Content" id="inputDescription"></InputTextArea>
+
+            <p class="mt-4">CATEGORIES</p>
+            @foreach (var cat in Categories)
+            {
+                <label class="mt-3 col-12" for="inputCategory">@cat.Name</label>
+                <InputCheckbox @bind-Value="cat.IsSelected"></InputCheckbox>
+            }
+
+            <p class="mt-4">LOCATION</p>
+            <label class="mt-3 col-6" for="inputCountry">Country</label>
+            <InputSelect class="col-6 form-control" @bind-Value="@Item.Country" id="inputCountry">
+            <option selected value="0" disabled>No country selected</option>
+            @foreach (var country in Countries)
+            {
+                    <option value="@country.Name">@country.Name</option>
+            }
+            </InputSelect>
+            <label class="mt-3 col-6" for="inputCity">City</label>
+            <InputText class="form-control" @bind-Value="@Item.Tour.City" id="inputCity"></InputText>
+
+            <p class="mt-4">PRICING</p>
+             <label class="mt-3 col-6" for="inputPricePerAdult">Price Per Adult</label>
+        <InputNumber class="form-control" @bind-Value="@Item.Tour.PricePerAdult" id="inputPricePerAdult"></InputNumber>
+
+        <label class="mt-3 col-6" for="inputPricePerChild">Price Per Child</label>
+        <InputNumber class="form-control" @bind-Value="@Item.Tour.PricePerChild" id="inputPricePerChild"></InputNumber>
+
+        <label class="mt-3 col-6" for="inputPricePerVehicule">Price Per Vehicule</label>
+        <InputNumber class="form-control" @bind-Value="@Item.Tour.PricePerVehicule" id="inputPricePerVehicule"></InputNumber>
+
+    
+        <p class="text-muted mt-3"><span class="text-danger font-weight-normal h4 mr-1">*</span>Requiered field</p>
+        <BtnSaveAndCancel ReturnLink="/admin/tourlistoverview" />
+
+
+        <DataAnnotationsValidator />
+    </EditForm>
+
+</div>

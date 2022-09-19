@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.Modal" Version="6.0.1" />
+    <PackageReference Include="BrowserInterop" Version="1.1.2" />
+    <PackageReference Include="FisSst.BlazorMaps" Version="1.0.1" />
+    <PackageReference Include="Sotsera.Blazor.Toaster" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TabiTravel.Data\TabiTravel.Data.csproj" />
+    <ProjectReference Include="..\TabiTravel.ServiceUI\TabiTravel.ServiceUI.csproj" />
+  </ItemGroup>
+
+</Project>

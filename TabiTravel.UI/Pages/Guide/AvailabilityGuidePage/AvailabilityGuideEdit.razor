@@ -1,0 +1,33 @@
+﻿@page "/guide/availabilityguide"
+@using TabiTravel.UI.Shared.Component
+@layout GuideLayout
+
+
+<h3>Your Availabilities</h3>
+
+<div class="col-md-6">
+
+    @if (Item == null)
+    {
+        <Loader />
+    }
+    else
+    {
+        <EditForm Model="@Item" OnValidSubmit="@Put">
+            @foreach (var day in Item)
+            {
+                <p class="fw-bold my-4">@day.DayName</p>
+                <div class="form-check-inline">
+                    <label for="inputMorning"> @day.AvailabilityGuideDayVM.Morning</label>
+                    <InputCheckbox class="mx-2" @bind-Value="day.AvailabilityGuideDayVM.IsMorning" id="inputMorning"></InputCheckbox>
+                    <label for="inputAfternoon"> @day.AvailabilityGuideDayVM.Afternoon</label>
+                    <InputCheckbox class="mx-2" @bind-Value="day.AvailabilityGuideDayVM.IsAfternoon" id="inputAfternoon"></InputCheckbox>
+                    <label for="inputEvening"> @day.AvailabilityGuideDayVM.Evening</label>
+                    <InputCheckbox class="mx-2" @bind-Value="day.AvailabilityGuideDayVM.IsEvening" id="inputEvening"></InputCheckbox>
+                </div>
+            }
+            <BtnSaveAndCancel ReturnLink="/guide/index" />
+        </EditForm>
+    }
+
+</div>

@@ -1,0 +1,64 @@
+﻿@page "/tourist/interestoverview/{Id}"
+@using TabiTravel.UI.Shared.Component
+@layout TouristLayout
+
+<a href="tourist/index" class="my-3 btn btn-dark"> Retour</a>
+
+<div class="form-group col-md-6">
+
+    <p class="my-3 fw-bold">INFO</p>
+    <div><span>Name : @Item.Interest.Name</span></div>
+    <img src="@Item.Interest.ImageUrl" alt="Logo Image" width="500" height="300">
+    <div><span>Description : @Item.Content</span></div>
+
+     <p class="my-3 fw-bold">CATEGORIES</p>
+    <div>
+        <span>
+            @foreach (var cat in Categories)
+            {
+                <label>@cat &nbsp;</label>
+            }
+        </span>
+    </div>
+
+    <p class="my-3 fw-bold">OPENING DAY</p>
+    <div><span>Schedule : @Item.Interest.Schedule</span></div>
+    <div>
+        <span>
+            @Item.Monday @if(@Item.Interest.IsMonday){<span class="oi oi-circle-check ms-1 text-success"></span>} else{<span class="oi oi-circle-x ms-1 text-danger"></span>} &nbsp;
+            @Item.Tuesday @if(@Item.Interest.IsTuesday){<span class="oi oi-circle-check ms-1 text-success"></span>}else{<span class="oi oi-circle-x ms-1 text-danger"></span>}  &nbsp;
+            @Item.Wednesday @if(@Item.Interest.IsWednesday){<span class="oi oi-circle-check ms-1 text-success"></span>}else{<span class="oi oi-circle-x ms-1 text-danger"></span>} &nbsp;
+            @Item.Thursday @if(@Item.Interest.IsThursday){<span class="oi oi-circle-check ms-1 text-success"></span>} else{<span class="oi oi-circle-x ms-1 text-danger"></span>}  &nbsp;
+            @Item.Friday @if(@Item.Interest.IsFriday){<span class="oi oi-circle-check ms-1 text-success"></span>}else{<span class="oi oi-circle-x ms-1 text-danger"></span>}  &nbsp;
+            @Item.Saturday @if(@Item.Interest.IsSaturday){<span class="oi oi-circle-check ms-1 text-success"></span>}else{<span class="oi oi-circle-x ms-1 text-danger"></span>}  &nbsp;
+            @Item.Sunday @if(@Item.Interest.IsSunday){<span class="oi oi-circle-check ms-1 text-success"></span>}else{<span class="oi oi-circle-x ms-1 text-danger"></span>} &nbsp;
+        </span>
+    </div>
+
+    <p class="my-3 fw-bold">LOCATION</p>
+    <div><span>Country : @Item.Country</span></div>
+    <div><span>City : @Item.Interest.ZipCode &nbsp; @Item.Interest.City</span></div>
+    <div><span>Address : @Item.Interest.Address</span></div>
+
+    <p class="my-3 fw-bold">ACCESSIBILITIES</p>
+    <div>
+        <span>
+            PRM Friendly @if(@Item.Interest.IsPRMFriendly){<span class="oi oi-circle-check ms-1 text-success"></span>}else{<span class="oi oi-circle-x ms-1 text-danger"></span>}  &nbsp;
+            Animal Friendly @if(@Item.Interest.IsAnimalFriendly){<span class="oi oi-circle-check ms-1 text-success ms-1 text-success"></span>} else{<span class="oi oi-circle-x ms-1 text-danger"></span>} &nbsp;
+            Child Friendly @if(@Item.Interest.IsChildFriendly){<span class="oi oi-circle-check ms-1 text-success"></span>} else{<span class="oi" data-glyph="circle-x ms-1 text-danger"></span>} &nbsp;
+            Stroller Friendly @if(@Item.Interest.IsStrollerFriendly){<span class="oi oi-circle-check ms-1 text-success"></span>}else{<span class="oi oi-circle-x ms-1 text-danger"></span>}  &nbsp;
+        </span>
+    </div>
+
+    <p class="my-3 fw-bold">PRICING</p>
+    <div><span>Adult : @Item.Interest.PricePerAdult €</span></div>
+    <div><span>Child : @Item.Interest.PricePerChild €</span></div>
+    <div><span>Emplacement : @Item.Interest.PricePerVehicule €</span></div>
+    <div><span>Free Parking : @if(@Item.Interest.IsFreeParking){<span class="oi oi-circle-check ms-1 text-success"></span>}else{<span class="oi oi-circle-x ms-1 text-danger"></span>}</span></div>
+    <div><span>Emplacement : @Item.Interest.EmplacementAvailable</span></div>
+
+    <p class="my-3 fw-bold">CONTACT</p>
+    <div><span>Phone : @Item.Interest.Phone</span></div>
+    <div><span>Mail : @Item.Interest.Email</span></div>
+
+</div>

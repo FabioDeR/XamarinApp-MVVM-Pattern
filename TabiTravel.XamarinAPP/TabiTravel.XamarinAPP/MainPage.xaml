@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:TabiTravel.XamarinAPP.FlyoutMenu"
+            xmlns:localHome="clr-namespace:TabiTravel.XamarinAPP.Views"
+             x:Class="TabiTravel.XamarinAPP.MainPage">
+
+    <FlyoutPage.Flyout>
+        <local:FlyoutMenuPage x:Name="flyout"/>
+    </FlyoutPage.Flyout>
+    <FlyoutPage.Detail>
+        <NavigationPage BarBackgroundColor="{StaticResource ThemeColor}">
+            <x:Arguments>
+                <localHome:HomePage/>
+            </x:Arguments>
+        </NavigationPage>
+    </FlyoutPage.Detail>
+
+</FlyoutPage>

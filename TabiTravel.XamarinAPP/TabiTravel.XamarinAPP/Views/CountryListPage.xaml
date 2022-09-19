@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="thisPage"
+             x:Class="TabiTravel.XamarinAPP.Views.CountryListPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <SearchBar Placeholder="Search..."></SearchBar>
+            <StackLayout HorizontalOptions="Center" VerticalOptions="FillAndExpand" Padding="10">
+                <ListView HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"
+                      SeparatorColor="Silver" HasUnevenRows="True" ItemsSource="{Binding CountriesList}"                    
+                      >
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <ViewCell >
+                                <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="FillAndExpand"
+                                MinimumHeightRequest="150">                                    
+                                    <StackLayout Orientation="Vertical" Padding="2" VerticalOptions="Center">
+                                        <Label  Text="{Binding Name}" FontSize="16" Margin="2" TextColor="{StaticResource DarkGreyColor}">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference thisPage},Path=BindingContext.Update}"
+                                                             CommandParameter="{Binding .}"/>
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </StackLayout>                                    
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>              
+              
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

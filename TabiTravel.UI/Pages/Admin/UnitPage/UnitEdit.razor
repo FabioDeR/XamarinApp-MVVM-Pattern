@@ -1,0 +1,60 @@
+﻿@page "/admin/unitedit"
+@page "/admin/unitedit/{Id}/{Language}"
+@using TabiTravel.UI.Shared.Component
+@layout AdminLayout
+
+<h3>Unit Edit</h3>
+<div class="form-group col-md-6">
+
+     @if (String.IsNullOrWhiteSpace(Id))
+    {
+        <EditForm Model="@FilterAdminPageItem">
+            <InputRadioGroup @bind-Value="FilterAdminPageItem.IsExisting" class="mt-4">
+                <InputRadio Value="false" @onclick="() => UnitChoice()" /> New unit <br />
+                <InputRadio Value="true" @onclick="() => UnitChoice()" /> Existing unit <br />
+            </InputRadioGroup>
+
+            @if (@FilterAdminPageItem.IsExisting)
+            {
+                <label class="mt-3" for="SelectUnit">Select unit<span class="text-danger ml-1">*</span></label>
+                <InputSelect class="col-6 form-control" @bind-Value="@FilterAdminPageItem.UnitId" id="inputUnit">
+                    <option selected value="0" disabled>No unit selected</option>
+                    @foreach (var unit in Units)
+                    {
+                        <option value="@unit.UnitId">@unit.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => FilterAdminPageItem.UnitId)" />
+            }
+            <DataAnnotationsValidator />
+        </EditForm>
+    }
+
+    <EditForm Model="@Item" OnValidSubmit="@HandleValidRequest">
+
+        <label class="mt-3" for="inputLanguage">Language<span class="text-danger ml-1">*</span></label>
+        <InputSelect class="col-6 form-control" @bind-Value="@Item.LanguageCodeIso" id="inputLanguage">
+            <option selected value="0" disabled>No language selected</option>
+            @foreach (var language in Languages)
+            {
+                <option value="@language.ISOCode">@language.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => Item.LanguageCodeIso)" />
+
+
+        <label class="mt-3 col-6" for="inputName">Name <span class="text-danger ml-1">*</span></label>
+        <InputText class="form-control" @bind-Value="@Item.Name" id="inputName"></InputText>
+        <ValidationMessage For="@(() => Item.Name)" />
+
+         <label class="mt-3 col-6" for="inputAbbreviation">Abbreviation <span class="text-danger ml-1">*</span></label>
+        <InputText class="form-control" @bind-Value="@Item.Abbreviation" id="inputAbbreviation"></InputText>
+        <ValidationMessage For="@(() => Item.Name)" />
+
+        <p class="text-muted mt-3"><span class="text-danger font-weight-normal h4 mr-1">*</span>Requiered field</p>
+        <BtnSaveAndCancel ReturnLink="/admin/elistoverview" />
+
+        <DataAnnotationsValidator />
+    </EditForm>
+
+</div>

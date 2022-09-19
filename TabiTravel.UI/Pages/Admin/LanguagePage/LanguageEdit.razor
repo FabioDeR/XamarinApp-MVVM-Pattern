@@ -1,0 +1,25 @@
+﻿@page "/admin/languageedit"
+@page "/admin/languageedit/{Id}"
+@using TabiTravel.UI.Shared.Component
+@layout AdminLayout
+
+
+<h3>LanguageEdit</h3>
+
+<EditForm Model="@Item" OnValidSubmit="@HandleValidRequest">
+    <div class="form-group col-md-6">
+        <label class="mt-3" for="inputLanguage">Language<span class="text-danger ml-1">*</span></label>
+        <InputText class="form-control" @bind-Value="@Item.Name" id="inputLanguage"></InputText>
+        <ValidationMessage For="@(() => Item.Name)" />
+
+
+        <label class="mt-3 col-6" for="inputIsoLanguage">ISO-2 Code <span class="text-danger ml-1">*</span></label>
+        <InputText class="form-control" @bind-Value="@Item.ISOCode" id="inputIsoCode"></InputText>
+        <ValidationMessage For="@(() => Item.ISOCode)" />
+
+
+        <p class="text-muted mt-3"><span class="text-danger font-weight-normal h4 mr-1">*</span>indique un champ obligatoire</p>
+        <BtnSaveAndCancel ReturnLink="/admin/index" />
+    </div>
+    <DataAnnotationsValidator />
+</EditForm>

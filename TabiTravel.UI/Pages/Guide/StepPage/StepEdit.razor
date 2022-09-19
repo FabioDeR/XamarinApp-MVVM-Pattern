@@ -1,0 +1,57 @@
+﻿@page "/guide/stepedit/{StepId}/"
+@page "/guide/stepedit/{TourId}/{Day}"
+@using TabiTravel.UI.Shared.Component
+@layout GuideLayout
+
+
+<h3>Step Edit</h3>
+<div class="form-group col-md-6">
+
+
+    <EditForm Model="@Item" OnValidSubmit="@HandleValidRequest">
+
+        <label class="mt-3 col-6" for="inputName">Name <span class="text-danger ml-1">*</span></label>
+        <InputText class="form-control" @bind-Value="@Item.Name" id="inputName"></InputText>
+        <ValidationMessage For="@(() => Item.Name)" />
+
+        <label class="mt-3 col-6" for="inputInterest">Interest</label>
+        <InputSelect class="col-6 form-control" @bind-Value="@Item.InterestId" id="inputInterest">
+            <option selected value="0" disabled>No Interest selected</option>
+            @foreach (var interest in InterestListVMs)
+            {
+                <option value="@interest.Id">@interest.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => Item.InterestId)" />
+
+        <label class="mt-3 col-6" for="inputDescription">Description</label>
+        <InputTextArea class="form-control" @bind-Value="@Item.Content" id="inputDescription"></InputTextArea>
+
+
+        <label class="mt-3 col-6" for="inputPreviousStep">PreviousStep</label>
+        <InputNumber class="form-control" @bind-Value="@Item.PreviousStep" id="inputPreviousStep"></InputNumber>
+
+        <label class="mt-3 col-6" for="inputUnit">Unit</label>
+        <InputSelect class="col-6 form-control" @bind-Value="@Item.UnitId" id="inputUnit">
+            <option selected value="0">No Unit selected</option>
+            @foreach (var unit in UnitVMs)
+            {
+                <option value="@unit.Id">@unit.Name</option>
+            }
+        </InputSelect>
+
+        <label class="mt-3 col-6" for="inputPosition">Position</label>
+        <InputNumber class="form-control" @bind-Value="@Item.Position" id="inputPosition"></InputNumber>
+
+        <p class="text-muted mt-3"><span class="text-danger font-weight-normal h4 mr-1">*</span>Requiered field</p>
+
+
+        <button class="btn btn-dark">Save</button>
+        @*            <a href="guide/steplistoverview/@tourId/@LanguageIso" class="btn btn-dark">Cancel</a>*@
+
+
+
+        <DataAnnotationsValidator />
+    </EditForm>
+
+</div>

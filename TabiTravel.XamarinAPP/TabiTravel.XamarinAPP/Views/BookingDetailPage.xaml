@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:TabiTravel.XamarinAPP.Effects"
+             x:Class="TabiTravel.XamarinAPP.Views.BookingDetailPage"
+                 xmlns:converters="clr-namespace:TabiTravel.XamarinAPP.Converter"
+             Title="Booking Details">
+    <ContentPage.Resources>
+        <converters:CompareDateConverter x:Key="CompareConverter"/>
+    </ContentPage.Resources>
+    <ScrollView>
+        <StackLayout Padding="0"
+                     Margin="0"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="FillAndExpand">
+                <!--#region Header Label -->
+                <StackLayout x:Name="StackLayoutColor" 
+                             HorizontalOptions="FillAndExpand"
+                             Padding="0,4">
+                    <StackLayout HorizontalOptions="CenterAndExpand" 
+                                 Orientation="Horizontal">
+                        <Image x:Name="ImageStack"
+                               HeightRequest="12">
+                        </Image>
+                        <Label x:Name="LabelStack"
+                                   TextColor="White"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   Margin="0,0,0,1"/>
+                    </StackLayout>
+                </StackLayout>
+                <!--#endregion-->
+                <!--#region Image -->
+                <Frame HeightRequest="260"
+                       WidthRequest="400"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0,-6,0,0"
+                       Padding="0">
+                    <!--BINDING TOUR IMG-->
+                    <Image Source="{Binding BookingDetailVM.TourImg}" 
+                           Aspect="AspectFill" />
+                </Frame>
+                <!--#endregion-->
+                <StackLayout Padding="15,5,15,15">
+
+                    <StackLayout HorizontalOptions="CenterAndExpand">
+                        <Label Text="{Binding BookingDetailVM.TourName}"
+                               TextColor="{StaticResource DarkGreyColor}"
+                               FontSize="Large"
+                               FontAttributes="Bold"/>
+                    </StackLayout>
+
+                    <StackLayout HorizontalOptions="Center" Orientation="Horizontal" Margin="0,-5,0,0">
+                        <!--BINDING DATE START-->
+                        <Label Text="{Binding BookingDetailVM.DateStart, StringFormat='{0:dd MMM. yyyy}'}" TextColor="{StaticResource GreyColor}"/>
+                        <!--BINDING DATE END-->
+                        <Label TextColor="{StaticResource GreyColor}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="- "/>
+                                    <Span Text="{Binding BookingDetailVM.DateEnd, StringFormat='{0:dd MMM. yyyy}'}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding BookingDetailVM.DateEnd, Converter={StaticResource CompareConverter}}" Value="True">
+                                    <Setter  Property="IsVisible" Value="False" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </StackLayout>
+
+                    <!--#region Pricing Summary -->
+                    <StackLayout Margin="0,20">
+                        <Label Text="Pricing summary" 
+                               TextColor="{StaticResource DarkGreyColor}" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               Margin="0,0,0,15"/>
+
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding BookingDetailVM.NbAdult}" TextColor="{StaticResource GreyColor}"/>
+                                    <Label Text="x Adults (+12)" TextColor="{StaticResource GreyColor}"/>
+                                    <Label TextColor="{StaticResource DarkGreyColor}"
+                                           HorizontalOptions="EndAndExpand">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding BookingDetailVM.TotalPriceAdult}"/>
+                                                <Span Text=" €"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout.Triggers>
+                                    <DataTrigger TargetType="StackLayout" Binding="{Binding BookingDetailVM.NbAdult}" Value="0">
+                                        <Setter  Property="IsVisible" Value="False" />
+                                    </DataTrigger>
+                                </StackLayout.Triggers>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding BookingDetailVM.NbChild}" TextColor="{StaticResource GreyColor}"/>
+                                    <Label Text="x Children (-12)" TextColor="{StaticResource GreyColor}"/>
+                                    <Label TextColor="{StaticResource DarkGreyColor}"
+                                           HorizontalOptions="EndAndExpand">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding BookingDetailVM.TotalPriceChild}"/>
+                                                <Span Text=" €"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout.Triggers>
+                                    <DataTrigger TargetType="StackLayout" Binding="{Binding BookingDetailVM.NbChild}" Value="0">
+                                        <Setter  Property="IsVisible" Value="False" />
+                                    </DataTrigger>
+                                </StackLayout.Triggers>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding BookingDetailVM.NbVehicule}" TextColor="{StaticResource GreyColor}"/>
+                                    <Label Text="x Tents / Camping-Cars / Vans" TextColor="{StaticResource GreyColor}"/>
+                                    <Label TextColor="{StaticResource DarkGreyColor}"
+                                           HorizontalOptions="EndAndExpand">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding BookingDetailVM.TotalPriceVehicule}"/>
+                                                <Span Text=" €"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout.Triggers>
+                                    <DataTrigger TargetType="StackLayout" Binding="{Binding BookingDetailVM.NbVehicule}" Value="0">
+                                        <Setter  Property="IsVisible" Value="False" />
+                                    </DataTrigger>
+                                </StackLayout.Triggers>
+                            </StackLayout>
+                            <BoxView HeightRequest="1" BackgroundColor="LightGray" Margin="0,5"/>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <Label Text="TOTAL"
+                                           FontAttributes="Bold"
+                                           FontSize="16"
+                                           TextColor="{StaticResource DarkGreyColor}"/>
+                                    <Label FontAttributes="Bold"
+                                           FontSize="16"
+                                           TextColor="{StaticResource DarkGreyColor}"
+                                           HorizontalOptions="EndAndExpand">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding BookingDetailVM.TotalPrice}"/>
+                                                <Span Text=" €"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                    <!--#endregion-->
+
+                    <!--#region View Tour Button -->
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="EndAndExpand">
+                        <StackLayout.GestureRecognizers>
+                            <!--BINDING TOUR ID (BY ID)-->
+                            <TapGestureRecognizer  Command="{Binding GoTo}" />
+                        </StackLayout.GestureRecognizers>
+                        <Label Text="View tour details"
+                               TextColor="{StaticResource ThemeColor}"
+                               FontAttributes="Bold"/>
+                        <Image Source="iconprimaryarrowright"
+                                   HeightRequest="12"
+                                   Margin="0,2,0,0"/>
+                    </StackLayout>
+                    <!--#endregion-->
+
+                    <!--#region Guide Contact -->
+                    <StackLayout Margin="0,20">
+                        <Label Text="Guide informations" 
+                               TextColor="{StaticResource DarkGreyColor}" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               Margin="0,0,0,15"/>
+                        <StackLayout Orientation="Horizontal" Spacing="20">
+                            <StackLayout>
+                                <Frame Padding="0" HeightRequest="80" WidthRequest="80" CornerRadius="40" >
+                                    <!--BINDING GUIDE IMG URL-->
+                                    <Image Source="{Binding BookingDetailVM.GuideAvatar}" Aspect="AspectFill" />
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout>
+                                <!--BINDING GUIDE NAME-->
+                                <Label Text="{Binding BookingDetailVM.GuideName}"
+                                       TextColor="{StaticResource GreyColor}"
+                                       FontAttributes="Bold">
+                                    <!--<Label.GestureRecognizers>
+                                        -->
+                                    <!--BINDING GUIDE ID (GO TO PROFILE)-->
+                                    <!--
+                                        <TapGestureRecognizer  Command="{Binding GoTo}" />
+                                    </Label.GestureRecognizers>-->
+                                </Label>
+                                <StackLayout Spacing="5" Orientation="Horizontal">
+                                    <Image Source="labeliconphone" 
+                                   HeightRequest="14"/>
+                                    <!--BINDING PHONE NUMBER (x2)-->
+                                    <local:PhoneLabel Text="{Binding BookingDetailVM.GuidePhone}"
+                                              PhoneNumber="{Binding BookingDetailVM.GuidePhone}"
+                                              VerticalTextAlignment="Center"/>
+                                </StackLayout>
+
+                                <StackLayout Spacing="5"  
+                                     Orientation="Horizontal">
+                                    <Image Source="labeliconmail" 
+                                   HeightRequest="14"/>
+                                    <!--BINDING EMAIL (x2)-->
+                                    <local:EmailLabel Text="{Binding BookingDetailVM.GuideEmail}"
+                                              Mail="{Binding BookingDetailVM.GuideEmail}"
+                                              VerticalTextAlignment="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                    <!--#endregion-->
+                    <!--#region Toursit Contact -->
+                    <StackLayout Margin="0,20">
+                        <Label Text="Tourist informations" 
+                               TextColor="{StaticResource DarkGreyColor}" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               Margin="0,0,0,15"/>
+                        <StackLayout Orientation="Horizontal" Spacing="20">
+                            <StackLayout>
+                                <Frame Padding="0" HeightRequest="80" WidthRequest="80" CornerRadius="40" >
+                                    <!--BINDING GUIDE IMG URL-->
+                                    <Image Source="{Binding BookingDetailVM.TouristAvatar}" Aspect="AspectFill" />
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout>
+                                <!--BINDING TOURIST NAME-->
+                                <Label Text="{Binding BookingDetailVM.TouristName}"
+                                       TextColor="{StaticResource GreyColor}"
+                                       FontAttributes="Bold">
+                                    <!--<Label.GestureRecognizers>
+                                        -->
+                                    <!--BINDING GUIDE ID (GO TO PROFILE)-->
+                                    <!--
+                                        <TapGestureRecognizer  Command="{Binding GoTo}" />
+                                    </Label.GestureRecognizers>-->
+                                </Label>
+                                <StackLayout Spacing="5" Orientation="Horizontal">
+                                    <Image Source="labeliconphone" 
+                                   HeightRequest="14"/>
+                                    <!--BINDING PHONE NUMBER (x2)-->
+                                    <local:PhoneLabel Text="{Binding BookingDetailVM.TouristPhone}"
+                                              PhoneNumber="{Binding BookingDetailVM.TouristPhone}"
+                                              VerticalTextAlignment="Center"/>
+                                </StackLayout>
+
+                                <StackLayout Spacing="5"  
+                                     Orientation="Horizontal">
+                                    <Image Source="labeliconmail" 
+                                   HeightRequest="14"/>
+                                    <!--BINDING EMAIL (x2)-->
+                                    <local:EmailLabel Text="{Binding BookingDetailVM.TouristEmail}"
+                                              Mail="{Binding BookingDetailVM.TouristEmail}"
+                                              VerticalTextAlignment="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                    <!--#endregion-->
+                    <StackLayout x:Name="StackButton" Orientation="Horizontal" Spacing="20" Margin="0,25,0,0">
+                        <Button Text="Accept" 
+                                TextColor="White" 
+                                BackgroundColor="{StaticResource SuccessColor}"
+                                Command="{Binding Update}"
+                                FontAttributes="Bold"
+                                CornerRadius="5"
+                                HorizontalOptions="FillAndExpand"/>
+
+                        <Button Text="Refuse" 
+                                TextColor="White" 
+                                Command="{Binding UpdateTwo}"
+                                BackgroundColor="{StaticResource WarningColor}"
+                                FontAttributes="Bold"
+                                CornerRadius="5"
+                                HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

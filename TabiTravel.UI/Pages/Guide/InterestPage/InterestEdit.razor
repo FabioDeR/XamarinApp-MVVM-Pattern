@@ -1,0 +1,146 @@
+﻿@page "/guide/interestedit"
+@page "/guide/interestedit/{Id}"
+@using TabiTravel.UI.Shared.Component
+@using BrowserInterop.Extensions
+@using BrowserInterop.Geolocation
+@layout GuideLayout
+
+
+<h3>Interest Edit</h3>
+<div class="form-group col-md-6">
+
+    @if (currentPosition == null && Id == null)
+    {
+        <Loader />
+        <span>Please agree to share your location so that we can locate you on the map</span>
+    }
+    else
+    {
+        <EditForm Model="@Item.Interest" OnValidSubmit="@HandleValidRequest">
+
+            <label class="mt-3 col-6" for="inputName">Name <span class="text-danger ml-1">*</span></label>
+            <InputText class="form-control" @bind-Value="@Item.Interest.Name" id="inputName"></InputText>
+            <ValidationMessage For="@(() => Item.Interest.Name)" />
+
+            <label for="inputLogo" class="mt-3">Picture</label>
+            <InputFile id="inputPicture" class="custom-file" OnChange="@SelectedImage" accept="image/jpeg,image/x-png" />
+
+            <p for="inputLogo" class="mt-3">Picture Preview : </p>
+            <img src="@Item.Interest.ImageUrl" alt="Logo Image" width="500" height="300" class="col-7">
+
+
+            <label class="mt-3 col-6" for="inputDescription">Description</label>
+            <InputTextArea class="form-control" @bind-Value="@Item.Content" id="inputDescription"></InputTextArea>
+
+            <p class="mt-5">MAP</p>
+            <span class="col-12">Your Position : &nbsp; Latitude @Item.Interest.Latitude &nbsp; &nbsp; Longitude @Item.Interest.Longitude</span>
+
+            <Map @ref="mapRef" MapOptions="@mapOptions"></Map>
+            <button type="button" @onclick="() => ShowMarker(IsShowMarker)">Show/Unshow marker</button>
+
+            <style>
+                #mapId {
+                    height: 400px;
+                }
+            </style>
+
+            <p class="mt-4">CATEGORIES</p>
+            @foreach (var cat in Categories)
+            {
+                <label class="mt-3 col-12" for="inputCategory">@cat.Name</label>
+                <InputCheckbox @bind-Value="cat.IsSelected"></InputCheckbox>
+            }
+
+            <p class="mt-5">OPENING DAY</p>
+            <label class="mt-3 col-6" for="inputSchedule">Schedule</label>
+            <InputTextArea class="form-control" @bind-Value="@Item.Interest.Schedule" id="inputSchedule"></InputTextArea>
+            <ValidationMessage For="@(() => Item.Interest.Schedule)" />
+
+            <label class="mt-3 col-6" for="inputMonday">@Item.Monday</label>
+            <InputCheckbox @bind-Value="@Item.Interest.IsMonday"></InputCheckbox>
+            <label class="mt-3 col-6" for="inputTuesday">@Item.Tuesday</label>
+            <InputCheckbox @bind-Value="@Item.Interest.IsTuesday"></InputCheckbox>
+            <label class="mt-3 col-6" for="inputWednesday">@Item.Wednesday</label>
+            <InputCheckbox @bind-Value="@Item.Interest.IsWednesday"></InputCheckbox>
+            <label class="mt-3 col-6" for="inputThursday">@Item.Thursday</label>
+            <InputCheckbox @bind-Value="@Item.Interest.IsThursday"></InputCheckbox>
+            <label class="mt-3 col-6" for="inputFriday">@Item.Friday</label>
+            <InputCheckbox @bind-Value="@Item.Interest.IsFriday"></InputCheckbox>
+            <label class="mt-3 col-6" for="inputSaturday">@Item.Saturday</label>
+            <InputCheckbox @bind-Value="@Item.Interest.IsSaturday"></InputCheckbox>
+            <label class="mt-3 col-6" for="inputSunday">@Item.Sunday</label>
+            <InputCheckbox @bind-Value="@Item.Interest.IsSunday"></InputCheckbox>
+
+            <p class="mt-5">ADDRESS</p>
+            <label class="mt-3 col-6" for="inputAddress">Address</label>
+            <InputText class="form-control" @bind-Value="@Item.Interest.Address" id="inputAddress"></InputText>
+            <ValidationMessage For="@(() => Item.Interest.Address)" />
+
+            <label class="mt-3 col-6" for="inputZipCode">Zip code</label>
+            <InputText class="form-control" @bind-Value="@Item.Interest.ZipCode" id="inputZipCode"></InputText>
+            <ValidationMessage For="@(() => Item.Interest.ZipCode)" />
+
+            <label class="mt-3 col-6" for="inputCity">City</label>
+            <InputText class="form-control" @bind-Value="@Item.Interest.City" id="inputCity"></InputText>
+            <ValidationMessage For="@(() => Item.Interest.City)" />
+
+            <label class="mt-3 col-6" for="inputCountry">Country</label>
+            <InputSelect class="col-6 form-control" @bind-Value="@Item.Country" id="inputCountry">
+                <option selected value="0" disabled>No country selected</option>
+                @foreach (var country in Countries)
+                {
+                <option value="@country.Name">@country.Name</option>
+                }
+        </InputSelect>
+
+        <p class="mt-5">ACCESSIBILITIES</p>
+        <label class="mt-3 col-6" for="inputPRMFriendly">PRM friendly ?</label>
+        <InputCheckbox @bind-Value="@Item.Interest.IsPRMFriendly"></InputCheckbox>
+
+        <label class="mt-3 col-6" for="inputAnimalFriendly">Animal friendly ?</label>
+        <InputCheckbox @bind-Value="@Item.Interest.IsAnimalFriendly"></InputCheckbox>
+
+        <label class="mt-3 col-6" for="inputChildFriendly">Children Friendly ?</label>
+        <InputCheckbox @bind-Value="@Item.Interest.IsChildFriendly"></InputCheckbox>
+
+        <label class="mt-3 col-6" for="inputStrollerFriendly">Stroller Friendly ?</label>
+        <InputCheckbox @bind-Value="@Item.Interest.IsStrollerFriendly"></InputCheckbox>
+
+        <p class="mt-5">PRICING</p>
+        <label class="mt-3 col-6" for="inputFree">Free access ?</label>
+        <InputCheckbox @bind-Value="@Item.Interest.IsFree"></InputCheckbox>
+
+        <label class="mt-3 col-6" for="inputPricePerAdult">Price Per Adult</label>
+        <InputNumber class="form-control" @bind-Value="@Item.Interest.PricePerAdult" id="inputPricePerAdult"></InputNumber>
+
+        <label class="mt-3 col-6" for="inputPricePerChild">Price Per Child</label>
+        <InputNumber class="form-control" @bind-Value="@Item.Interest.PricePerChild" id="inputPricePerChild"></InputNumber>
+
+        <label class="mt-3 col-6" for="inputPricePerVehicule">Price Per Vehicule</label>
+        <InputNumber class="form-control" @bind-Value="@Item.Interest.PricePerVehicule" id="inputPricePerVehicule"></InputNumber>
+
+        <label class="mt-3 col-6" for="inputFreeParking">Free Parking ?</label>
+        <InputCheckbox @bind-Value="@Item.Interest.IsFreeParking"></InputCheckbox>
+
+        <label class="mt-3 col-6" for="inputEmplacementAvailable">Emplacement available (sleeping)</label>
+        <InputNumber class="form-control" @bind-Value="@Item.Interest.EmplacementAvailable" id="inputEmplacementAvailable"></InputNumber>
+
+        <p class="mt-5">CONTACT</p>
+        <label class="mt-3 col-6" for="inputEmail">Email</label>
+        <InputText class="form-control" @bind-Value="@Item.Interest.Email" id="inputEmail"></InputText>
+        <ValidationMessage For="@(() => Item.Interest.Email)" />
+
+        <label class="mt-3 col-6" for="inputPhone">Phone</label>
+        <InputText class="form-control" @bind-Value="@Item.Interest.Phone" id="inputPhone"></InputText>
+        <label class="mt-3 col-6" for="inputPhone">Phone</label>
+
+
+        <p class="text-muted mt-3"><span class="text-danger font-weight-normal h4 mr-1">*</span>Requiered field</p>
+        <BtnSaveAndCancel ReturnLink="/admin/interestlistoverview" />
+
+
+        <DataAnnotationsValidator />
+    </EditForm>
+    }
+
+</div>

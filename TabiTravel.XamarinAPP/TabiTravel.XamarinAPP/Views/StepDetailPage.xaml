@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.Views.StepDetailPage"
+             Title="{Binding GetMyStepVM.StepName}">
+    
+
+    <ScrollView>
+
+        <StackLayout Padding="0"
+                     Margin="0"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand">
+
+                <!-- ::: MAIN ::: -->
+                <StackLayout VerticalOptions="FillAndExpand">
+
+                <Frame HeightRequest="260"
+                       WidthRequest="400"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0"
+                       Padding="0">
+                    <Image x:Name="InterestImage"
+                           Source="{Binding GetMyStepVM.ImageUrl}" 
+                           Aspect="AspectFill" />
+                </Frame>
+
+                    <StackLayout Padding="15">
+                        <FlexLayout JustifyContent="SpaceBetween"
+                                Margin="0,0,0,-10">
+                            <!--BINDING STEP NAME-->
+                            <Label Text="{Binding GetMyStepVM.StepName}" 
+                                           FontSize="16" 
+                                           TextColor="{StaticResource DarkGreyColor}" 
+                                           FontAttributes="Bold" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="iconpingray" HeightRequest="12"/>
+                            <Label Margin="-2,1,0,0" TextColor="{StaticResource GreyColor}">
+                                    <Label.FormattedText>
+                                        <!--BINDING STEP CITY + COUNTRY-->
+                                        <FormattedString>
+                                            <Span Text="{Binding GetMyStepVM.City}" FontSize="14"/>
+                                            <Span Text=", " FontSize="14"/>
+                                            <Span Text="{Binding GetMyStepVM.Country}" FontSize="14"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                        </FlexLayout>
+                        <!--BINDING STEP CONTENT-->
+                        <Label Text="{Binding GetMyStepVM.Content }"
+                               Margin="0,15,0,0"
+                               TextColor="{StaticResource GreyColor}"/>                       
+                        <StackLayout Orientation="Horizontal"
+                                     HorizontalOptions="EndAndExpand"
+                                     Margin="0,15">
+                            <StackLayout.GestureRecognizers>                                
+                                <TapGestureRecognizer  Command="{Binding GoTo}" />
+                            </StackLayout.GestureRecognizers>
+                            <Label Text="Related point of interest"
+                               TextColor="{StaticResource ThemeColor}"
+                               FontAttributes="Bold"/>
+                            <Image Source="iconprimaryarrowright"
+                                   HeightRequest="12"
+                                   Margin="0,2,0,0"/>
+                        </StackLayout>
+
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>          
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,26 @@
+﻿@page "/guide/unavailabilityguideedit/{Id}"
+@page "/guide/unavailabilityguideedit"
+@using TabiTravel.UI.Shared.Component
+@layout GuideLayout
+
+
+<h3>Unavailability Edit</h3>
+
+<div class="form-group col-md-4">
+
+
+    <EditForm Model="@Item" OnValidSubmit="@HandleValidRequest">
+
+        <label class="mt-3 col-6" for="inputDateStart">DateStart <span class="text-danger ml-1">*</span></label>
+        <InputDate class="form-control" @bind-Value="@Item.DateStart" id="inputDateStart"></InputDate>
+        <ValidationMessage For="@(() => Item.DateStart)" />
+
+        <label class="mt-3 col-6" for="inputDateEnd">DateEnd <span class="text-danger ml-1">*</span></label>
+        <InputDate class="form-control" @bind-Value="@Item.DateEnd" id="inputDateEnd"></InputDate>
+        <ValidationMessage For="@(() => Item.DateEnd)" />
+
+        <DataAnnotationsValidator />
+        <BtnSaveAndCancel ReturnLink="/admin/unavailabilityguidelistoverview" />
+    </EditForm>
+
+</div>

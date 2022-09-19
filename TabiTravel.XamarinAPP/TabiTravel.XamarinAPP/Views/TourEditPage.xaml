@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.Views.TourEditPage"
+             xmlns:effects="clr-namespace:TabiTravel.XamarinAPP.Effects"
+             Title="Edit Tour">
+    <ScrollView>
+        <StackLayout>
+
+            <StackLayout HeightRequest="260">
+                <RelativeLayout>
+                    <Frame HeightRequest="260"
+                       WidthRequest="400"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0"
+                       Padding="0">
+                        <Image x:Name="InterestImage"
+                           Source="{Binding Tour.ImageUrl}" 
+                           Aspect="AspectFill" />
+                    </Frame>
+                </RelativeLayout>
+            </StackLayout>
+            <StackLayout>
+                <ImageButton Source="buttoncamera"
+                             Margin="0,-28,15,0"
+                             Command="{Binding PostPhoto}"
+                             BackgroundColor="{StaticResource ThemeColor}"                                   
+                             CornerRadius="22"                                 
+                             HeightRequest="44" 
+                             WidthRequest="44"
+                             HorizontalOptions="End"
+                             Padding="10"/>
+            </StackLayout>
+
+            <StackLayout  Padding="20,10,20,30" VerticalOptions="FillAndExpand">
+
+                <Label TextColor="{StaticResource DarkGreyColor}" 
+                   Text="Tour details" 
+                   FontSize="16" 
+                   FontAttributes="Bold"
+                   Margin="0,0,0,10"/>
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                        <Label Text="Name"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <!-- BINDING TOUR NAME -->
+                        <Entry TextColor="{StaticResource DarkGreyColor}" 
+                           Text="{Binding Tour.Name}"
+                           FontSize="16"
+                           Placeholder="ex : Atomium" 
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-8">
+                            <Entry.Effects>
+                                <effects:CustomEntry/>
+                            </Entry.Effects>
+                        </Entry>
+                    </Grid>
+                </Frame>
+                <Label x:Name="Tour_NameError" IsVisible="False" TextColor="{StaticResource WarningColor}" />
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, 160" 
+                      ColumnDefinitions="*">
+                        <Label Text="Description"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <!-- BINDING TOUR CONTENT -->
+                        <Editor TextColor="{StaticResource DarkGreyColor}"
+                            FontSize="16"
+                            VerticalOptions="EndAndExpand" 
+                            HeightRequest="160" 
+                            Text="{Binding Content}"
+                            Placeholder="Write some words about your tour ... " 
+                            Grid.Row="1" 
+                            Grid.Column="0" 
+                            Margin="0,0,0,-1">
+                            <Editor.Effects>
+                                <effects:CustomEntry/>
+                            </Editor.Effects>
+                        </Editor>
+                    </Grid>
+                </Frame>
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                        <Label Text="City" 
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <!-- BINDING TOUR CITY -->
+                        <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Placeholder="ex : Bruxelles" 
+                           Text="{Binding Tour.City}"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-5"
+                           ClassId="CY"
+                           TextChanged="Entry_TextChanged">
+                            <Entry.Effects>
+                                <effects:CustomEntry/>
+                            </Entry.Effects>
+                        </Entry>
+                    </Grid>
+                </Frame>
+                <Label x:Name="Tour_CityError" IsVisible="False" TextColor="{StaticResource WarningColor}" />
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,25" 
+                   BorderColor="{StaticResource LightGreyColor}"    >
+                    <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                        <Label Text="Country"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <!-- PICKER : BINDING TOUR COUNTRY -->
+                        <Picker  ItemsSource="{Binding CountriesList}"
+                             SelectedItem="{Binding CountrySelected}"
+                             ItemDisplayBinding="{Binding Name}"
+                             TextColor="{StaticResource DarkGreyColor}"
+                             FontSize="16" 
+                             Margin="0,12,0,-15">
+                            <Picker.Effects>
+                                <effects:CustomEntry/>
+                            </Picker.Effects>
+                        </Picker>
+                    </Grid>
+                </Frame>
+                <Label x:Name="Tour_CountryIdError" IsVisible="False" TextColor="{StaticResource WarningColor}" />
+
+                <Label Text="Category"
+                   TextColor="{StaticResource DarkGreyColor}"                     
+                   FontSize="16" 
+                   FontAttributes="Bold" 
+                   Margin="0,0,0,10" />
+                <FlexLayout
+                        Wrap="Wrap"
+                        Direction="Row"
+                        JustifyContent="SpaceEvenly"                
+                        BindableLayout.ItemsSource="{Binding CategoryTourList}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" Spacing="4">
+                                <Label Text="{Binding Name}" VerticalTextAlignment="Center"/>
+                                <CheckBox IsChecked="{Binding IsSelected}"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+
+
+                <StackLayout Margin="0,20,0,10">
+                    <Label TextColor="{StaticResource DarkGreyColor}" 
+                           Text="Pricings" 
+                           FontSize="16" 
+                           FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout >                          
+                         
+                    <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,0">
+                        <Label Text="Free ?"
+                               FontSize="16"
+                               TextColor="{StaticResource DarkGreyColor}"  
+                               Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}"
+                                BackgroundColor="White"
+                                Grid.Column="1"   
+                                IsToggled="{Binding IsFree}"
+                                Toggled="Handle_Toggled"/>
+                    </Grid>
+                    <Frame x:Name="EntryPricePerAdult"
+                           HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,20">
+                            <Label Text="Per Adult (+12)"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}"                                    
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Entry x:Name="EntryNumberPricePerAdult"
+                                   ClassId="PPA"
+                                   TextColor="{StaticResource DarkGreyColor}"
+                                   FontSize="16"                                   
+                                   Keyboard="Numeric"
+                                   TextChanged="Entry_TextChanged"
+                                   Placeholder="ex : 9"                                   
+                                   Text="{Binding Tour.PricePerAdult}"
+                                   Grid.Row="1"
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                            <Label Text="€"
+                                   FontSize="20"
+                                   TextColor="{StaticResource LightGreyColor}"                                  
+                                   Grid.Row="1" 
+                                   Grid.Column="1"/>
+                        </Grid>
+                    </Frame>
+                    <Frame x:Name="EntryPricePerChild"
+                           HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,20">
+
+                            <Label x:Name="EntryPriceChild"
+                                   Text="Per Child (-12)"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Entry x:Name="EntryNumberPricePerChild"
+                                   TextColor="{StaticResource DarkGreyColor}"
+                                   ClassId="PPC"
+                                   FontSize="16"
+                                   TextChanged="Entry_TextChanged"                                   
+                                   Keyboard="Numeric"
+                                   Placeholder="ex : 9" 
+                                   Text="{Binding Tour.PricePerChild}"
+                                   Grid.Row="1"
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                            <Label Text="€"
+                           FontSize="20"
+                           TextColor="{StaticResource LightGreyColor}"
+                           Grid.Row="1" 
+                           Grid.Column="1"/>
+                        </Grid>
+                    </Frame>
+
+                    <Frame x:Name="EntryPricePerVehicule" 
+                           HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,25" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,20">
+
+                            <Label Text="Tents / Campervans / Motorhomes"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Entry TextColor="{StaticResource DarkGreyColor}"
+                                   x:Name="EntryNumberPricePerVehicule"
+                                   ClassId="PPV"
+                                   FontSize="16"
+                                   Keyboard="Numeric"
+                                   Placeholder="ex : 9" 
+                                   TextChanged="Entry_TextChanged"                            
+                                   Text="{Binding Tour.PricePerVehicule}"
+                                   Grid.Row="1"
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                            <Label Text="€"
+                                   FontSize="20"
+                                   TextColor="{StaticResource LightGreyColor}"
+                                   Grid.Row="1" 
+                                   Grid.Column="1"/>
+
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+                <StackLayout VerticalOptions="EndAndExpand">
+                    <Button x:Name="SaveButton"
+                        Text="Save" 
+                        Command="{Binding Save}"
+                        BackgroundColor="{StaticResource ThemeColor}" 
+                        TextColor="White" 
+                        FontAttributes="Bold" 
+                        CornerRadius="5"
+                        Margin="0,35,0,0">
+                    </Button>
+                    <Button x:Name="UpdateButton"
+                    Text="Update" 
+                    BackgroundColor="{StaticResource ThemeColor}" 
+                    TextColor="White" 
+                    Command="{Binding Update}"
+                    FontAttributes="Bold" 
+                    CornerRadius="5"
+                    Margin="0,35,0,0">
+                    </Button>
+                </StackLayout>
+
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.Views.SearchPage"
+             Title="Search"             
+             xmlns:effects="clr-namespace:TabiTravel.XamarinAPP.Effects">
+
+    <ScrollView>
+        <StackLayout  Padding="20,30" VerticalOptions="FillAndExpand">
+            <Grid RowDefinitions="Auto"
+                  ColumnDefinitions="*,15"
+                  Margin="0,0,0,10">
+                <Label TextColor="{StaticResource DarkGreyColor}" 
+                   Text="Per Accessibilities" 
+                   FontSize="16" 
+                   FontAttributes="Bold"                   
+                   Grid.Row="0" 
+                   Grid.Column="0"/>
+                <ImageButton Source="iconuparrow"
+                             x:Name="AccessibilitiesArrow"
+                             HeightRequest="15"
+                             WidthRequest="15"
+                             BackgroundColor="Transparent"
+                             Grid.Row="0" 
+                             Grid.Column="1"
+                             Clicked="ShowAccessibilities_Clicked"/>
+            </Grid>
+            <StackLayout x:Name="AccessibilitiesEntry"
+                         IsVisible="False">
+                <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="300,*" 
+                  Margin="0,0,0,10">
+                    <Label Text="People with reduced mobility (PRM) friendly ?" 
+                       FontSize="14"                           
+                       TextColor="{StaticResource DarkGreyColor}"                        
+                       Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}"  
+                        Grid.Column="1" 
+                        IsToggled="{Binding SearchVM.IsPRMFriendly}" />
+                </Grid>
+                <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="300,*" 
+                  Margin="0,0,0,10">
+                    <Label Text="Stroller friendly ?"
+                       FontSize="14"
+                       TextColor="{StaticResource DarkGreyColor}"                         
+                       Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                        Grid.Column="1" 
+                        IsToggled="{Binding SearchVM.IsStrollerFriendly}" />
+                </Grid>
+                <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="300,*" 
+                  Margin="0,0,0,10">
+                    <Label Text="Children friendly ?"
+                       FontSize="14"
+                       TextColor="{StaticResource DarkGreyColor}"                        
+                       Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                        Grid.Column="1" 
+                        IsToggled="{Binding SearchVM.IsChildFriendly}" />
+                </Grid>
+                <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="300,*" 
+                  Margin="0,0,0,10">
+                    <Label Text="Pet friendly ?"
+                       FontSize="14"
+                       TextColor="{StaticResource DarkGreyColor}"
+                       Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}"  
+                        Grid.Column="1" 
+                        IsToggled="{Binding SearchVM.IsAnimalFriendly}"/>
+                </Grid>
+            </StackLayout>
+            <!--#endregion-->
+            <!--#region Pricing -->
+            <Grid RowDefinitions="Auto"
+                  ColumnDefinitions="*,15"
+                  Margin="0,0,0,10">
+                <Label TextColor="{StaticResource DarkGreyColor}" 
+                   Text="Per Pricing" 
+                   FontSize="16" 
+                   FontAttributes="Bold"                   
+                   Grid.Row="0" 
+                   Grid.Column="0"/>
+                <ImageButton Source="iconuparrow"
+                             x:Name="PricingArrow"
+                             HeightRequest="15"
+                             WidthRequest="15"
+                             BackgroundColor="Transparent"
+                             Grid.Row="0" 
+                             Grid.Column="1"
+                             Clicked="ShowPricing_Clicked"/>
+            </Grid>
+            <StackLayout x:Name="PricingEntry"
+                         IsVisible="False">
+                <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="300,*" 
+                  Margin="0,0,0,0">
+                    <Label Text="Free Access ?"
+                       FontSize="14"
+                       TextColor="{StaticResource DarkGreyColor}"  
+                       Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                        Grid.Column="1" 
+                        IsToggled="{Binding SearchVM.IsFree}" Toggled="Handle_Toggled"/>
+                </Grid>
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*,20">
+                        <Label Text="Per Adult (+12)"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}"                                    
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <Entry TextColor="{StaticResource DarkGreyColor}"
+                                   FontSize="16"
+                                   ClearButtonVisibility="WhileEditing"
+                                   Keyboard="Numeric"
+                                   Placeholder="ex : 9" 
+                                   x:Name="EntryPriceAdult"                                   
+                                   Text="{Binding SearchVM.PricePerAdult}"
+                                   Grid.Row="1"
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                            <Entry.Effects>
+                                <effects:CustomEntry/>
+                            </Entry.Effects>
+                        </Entry>
+                        <Label Text="€"
+                           FontSize="20"
+                           TextColor="{StaticResource LightGreyColor}"                                  
+                           Grid.Row="1" 
+                           Grid.Column="1"/>
+                    </Grid>
+                </Frame>
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*,20">
+                        <Label Text="Per Child (-12)"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Keyboard="Numeric"
+                           x:Name="EntryPricePerChild"
+                           Placeholder="ex : 9" 
+                           Text="{Binding SearchVM.PricePerChild}"
+                           Grid.Row="1"
+                           Grid.Column="0" 
+                           Margin="0,0,0,-8">
+                            <Entry.Effects>
+                                <effects:CustomEntry/>
+                            </Entry.Effects>
+                        </Entry>
+                        <Label Text="€"
+                           FontSize="20"
+                           TextColor="{StaticResource LightGreyColor}"
+                           Grid.Row="1" 
+                           Grid.Column="1"/>
+                    </Grid>
+                </Frame>
+                <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="150,*" 
+                          
+                  Margin="0,0,0,0">
+                    <Label Text="Free Parking ?"
+                       FontSize="14"
+                       TextColor="{StaticResource DarkGreyColor}"  
+                       Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                        Grid.Column="1" 
+                        Toggled="Handle_ToggledParking"/>
+                </Grid>
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,25" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*,20">
+
+                        <Label Text="Per Vehicule"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Keyboard="Numeric"
+                           Placeholder="ex : 9" 
+                           x:Name="EntryPricePerVehicule"
+                           Text="{Binding SearchVM.PricePerVehicule}"
+                           Grid.Row="1"
+                           Grid.Column="0" 
+                           Margin="0,0,0,-8">
+                            <Entry.Effects>
+                                <effects:CustomEntry/>
+                            </Entry.Effects>
+                        </Entry>
+                        <Label Text="€"
+                           FontSize="20"
+                           TextColor="{StaticResource LightGreyColor}"
+                           Grid.Row="1" 
+                           Grid.Column="1"/>
+
+                    </Grid>
+                </Frame>
+            </StackLayout>
+            <!--#endregion-->
+
+            <Grid RowDefinitions="Auto"
+                  ColumnDefinitions="*,15"
+                  Margin="0,0,0,10">
+                <Label TextColor="{StaticResource DarkGreyColor}" 
+                   Text="Opening days" 
+                   
+                 FontSize="16" 
+                   FontAttributes="Bold"                   
+                   Grid.Row="0" 
+                   Grid.Column="0"/>
+                <ImageButton Source="iconuparrow"
+                             x:Name="ScheduleArrow"
+                             HeightRequest="15"
+                             WidthRequest="15"
+                             BackgroundColor="Transparent"
+                             Grid.Row="0" 
+                             Grid.Column="1"
+                             Clicked="ShowSchedule_Clicked"/>
+            </Grid>
+            <StackLayout x:Name="ScheduleEntry"
+                         IsVisible="False">
+
+                <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                    <Label Text="Monday" 
+                               FontSize="14"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                IsToggled="{Binding SearchVM.IsMonday}" />
+                </Grid>
+
+                <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                    <Label Text="Tuesday" 
+                               FontSize="14"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding SearchVM.IsTuesday}" />
+                </Grid>
+
+                <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                    <Label Text="Wednesday" 
+                               FontSize="14"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding SearchVM.IsWednesday}" />
+                </Grid>
+
+                <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                    <Label Text="Thursday" 
+                               FontSize="14"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding SearchVM.IsThursday}" />
+                </Grid>
+
+                <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                    <Label Text="Friday" 
+                               FontSize="14"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding SearchVM.IsFriday}" />
+                </Grid>
+
+                <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                    <Label Text="Saturday" 
+                               FontSize="14"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding SearchVM.IsSaturday}" />
+                </Grid>
+
+                <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,15">
+                    <Label Text="Sunday" 
+                               FontSize="14"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                    <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding SearchVM.IsSunday}" />
+                </Grid>                
+            </StackLayout>
+            <!--#endregion-->
+            <Grid RowDefinitions="Auto"
+                  ColumnDefinitions="*,15"
+                  Margin="0,0,0,10">
+                <Label TextColor="{StaticResource DarkGreyColor}" 
+                   Text="Others" 
+                   FontSize="16" 
+                   FontAttributes="Bold"                   
+                   Grid.Row="0" 
+                   Grid.Column="0"/>
+                <ImageButton Source="iconuparrow"
+                             x:Name="PlusSearchArrow"
+                             HeightRequest="15"
+                             WidthRequest="15"
+                             BackgroundColor="Transparent"
+                             Grid.Row="0" 
+                             Grid.Column="1"
+                             Clicked="ShowPlusSearch_Clicked"/>
+            </Grid>
+            <StackLayout x:Name="PlusSearch"
+                         IsVisible="False">
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                        <Label Text="Name"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <Entry TextColor="{StaticResource DarkGreyColor}" 
+                           Text="{Binding SearchVM.Name}"
+                           FontSize="16"
+                           Placeholder="ex : Atomium" 
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-8">
+                            <Entry.Effects>
+                                <effects:CustomEntry/>
+                            </Entry.Effects>
+                        </Entry>
+                    </Grid>
+                </Frame>
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                        <Label Text="City" 
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Placeholder="ex : Bruxelles" 
+                           Text="{Binding SearchVM.City}"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-5">
+                            <Entry.Effects>
+                                <effects:CustomEntry/>
+                            </Entry.Effects>
+                        </Entry>
+                    </Grid>
+                </Frame>              
+                <Frame HasShadow="False" 
+                               CornerRadius="5" 
+                               Padding="6" 
+                               Margin="0,0,0,10" 
+                               BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,25,2">
+                        <Label Text="Language"                                   
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}"                          
+                                   Margin="5,0,0,-14" />
+                        <ImageButton 
+                                Source="iconcross"
+                                HeightRequest="15"
+                                WidthRequest="15"       
+                                Command="{Binding UnSelectedLanguage}"
+                                BackgroundColor="Transparent"
+                                Grid.Row="0" 
+                                Grid.Column="1"
+                             />
+                        <Picker x:Name="ChooseLanguage"  
+                              ItemsSource="{Binding LanguageList}"
+                                SelectedItem="{Binding SelectedLanguage}"
+                             ItemDisplayBinding="{Binding LanguageIso}"
+                             TextColor="{StaticResource DarkGreyColor}"
+                             FontSize="16" 
+                             Margin="0,12,0,-15">
+                            <Picker.Effects>
+                                <effects:CustomEntry/>
+                            </Picker.Effects>
+                        </Picker>
+                    </Grid>
+                </Frame>
+                <Frame HasShadow="False" 
+                               CornerRadius="5" 
+                               Padding="6" 
+                               Margin="0,0,0,10" 
+                               BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,25,2">
+                        <Label Text="Category"                                   
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}"                          
+                                   Margin="5,0,0,-14" />
+                        <ImageButton 
+                                Source="iconcross"
+                                HeightRequest="15"
+                                WidthRequest="15"       
+                                Command="{Binding UnSelectedCategory}"
+                                BackgroundColor="Transparent"
+                                Grid.Row="0" 
+                                Grid.Column="1"
+                             />
+                        <Picker x:Name="ChooseCategory"    
+                                ItemsSource="{Binding CategoryList}"
+                                SelectedItem="{Binding SelectedCategory}"                                
+                                ItemDisplayBinding="{Binding Name}"
+                             TextColor="{StaticResource DarkGreyColor}"
+                             FontSize="16" 
+                             Margin="0,12,0,-15">
+                            <Picker.Effects>
+                                <effects:CustomEntry/>
+                            </Picker.Effects>
+                        </Picker>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+            <!--#region Button Save and Update -->
+            <StackLayout VerticalOptions="EndAndExpand">
+                <Button 
+                    Text="Search" 
+                    BackgroundColor="{StaticResource ThemeColor}"  
+                    TextColor="White" 
+                    Command="{Binding Search}"
+                    FontAttributes="Bold" 
+                    CornerRadius="5"
+                    Margin="0,35,0,0"/>
+            </StackLayout>
+            <!--#endregion-->
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

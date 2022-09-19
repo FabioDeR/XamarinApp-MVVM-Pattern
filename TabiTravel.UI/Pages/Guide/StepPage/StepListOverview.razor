@@ -1,0 +1,67 @@
+﻿@page "/guide/steplistoverview/{TourId}/{LanguageIso}"
+@layout GuideLayout
+@using TabiTravel.UI.Shared.Component
+
+<h3 class="my-3">Step list overview</h3>
+
+@if (Loading)
+{
+    <Loader />
+}
+else
+{
+    <p>Tour Name : @MyStepVM.TourName</p>
+    <p>Location : @MyStepVM.City, @MyStepVM.CountryName</p>
+
+    <a class="btn btn-dark my-2 text-end" title="Cancel" href="guide/tourlistoverview">Cancel</a>
+
+    @foreach (var days in MyStepVM.DayVMs)
+    {
+        <p class="mt-3">Day @days.Day &nbsp; <a class="btn btn-primary" href="guide/stepedit/@MyStepVM.TourId/@days.Day">+</a></p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="col-8 h5 font-weight-bold" scope="col">Name </th>
+                    <th class="col-1 h5 font-weight-bold" scope="col">Previous Step</th>
+                    <th class="col-1 h5 font-weight-bold" scope="col">Unit</th>
+                    <th class="col-1 h5 font-weight-bold" scope="col">Language(s)</th>
+                    <th class="col-2 text-end h5 font-weight-bold" scope="col">Edit</th>
+                </tr>
+            </thead>
+        </table>
+        @foreach (var step in days.StepEditVMs)
+        {
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <td class="col-8">@step.Name</td>
+                        <td class="col-1">@step.PreviousStep</td>
+                        @if (@step.PreviousStep == 0 || @step.PreviousStep == null)
+                        {
+                            <td class="col-1"></td>
+                        }
+                        else
+                        {
+                            <td class="col-1">@step.Unit</td>
+                        }
+                        @if (@step.Content != null)
+                        {
+                            <td><a href="guide/translatelistoverview/@step.StepId/2/@LanguageIso"><span class="oi oi-eye"></span></a></td>
+                        }
+                        else
+                        {
+                            <td><span class="oi oi-eye"></span></td>
+                        }
+                         <td class="text-end">
+                            <a class="btn btn-primary" title="Edit" href="guide/stepedit/@step.StepId/"><span class="oi oi-pencil"></span></a>
+                            <button class="btn btn-danger" title="Delete" @onclick="() => Delete(step.StepId)"><span class="oi oi-trash"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    }
+     <p class="mt-3">Add Day <a class="btn btn-primary" href="guide/stepedit/@MyStepVM.TourId/@DayIncrement">+</a></p>
+}
+
+

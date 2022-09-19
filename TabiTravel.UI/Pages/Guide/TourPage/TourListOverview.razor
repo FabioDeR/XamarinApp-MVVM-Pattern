@@ -1,0 +1,83 @@
+﻿@page "/guide/tourlistoverview"
+@layout GuideLayout
+@using TabiTravel.UI.Shared.Component
+
+<h3 class="my-3">Tour list overview</h3>
+
+@if (Loading)
+{
+    <Loader />
+}
+else
+{
+     <EditForm Model="FilterGuidePageItem" OnValidSubmit="Filter">
+        <div class="form-group row col-md-8 mt-4">
+            <label for="inputFilter" class="col-form-label col-1">Filter</label>
+            <InputText @bind-Value="@FilterGuidePageItem.Name" class="col-3"></InputText>
+            <InputSelect class="col-3 ms-3" @bind-Value="@FilterGuidePageItem.FilterName" id="inputfilter">
+                <option selected value="No">No filter selected</option>
+                @foreach (var filter in Filters)
+                {
+                    <option value="@filter">@filter</option>
+                }
+            </InputSelect>
+            <button class="btn btn-primary col-1 ms-2" title="search"><span class="oi oi-magnifying-glass"></span></button>
+            <a @onclick="() => LoadList()" class="col-1 pt-2">Reset</a>
+        </div>
+    </EditForm>
+
+    <BtnAddAndCancel AddLink="guide/touredit" ReturnLink="/guide/index" />
+
+   <table class="table table-hover my-4">
+        <thead>
+            <tr>
+                <th class="col-2 h5 font-weight-bold" scope="col">Name <i @onclick="@(() => SortBy("name"))" class="oi oi-elevator"></i></th>
+                <th class="col-2 h5 font-weight-bold" scope="col">Country <i @onclick="@(() => SortBy("country"))" class="oi oi-elevator"></i></th>
+                <th class="col-2 h5 font-weight-bold" scope="col">City <i @onclick="@(() => SortBy("city"))" class="oi oi-elevator"></i></th>
+                <th class="col-2 h5 font-weight-bold" scope="col">Categories </th>
+                <th class="col-1 h5 font-weight-bold" scope="col">Languages</th>
+                <th class="col-1 h5 font-weight-bold" scope="col">Step</th>
+                <th class="col-2 text-end h5 font-weight-bold" scope="col">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (MyTourVMs == null)
+            {
+                <tr>
+                    <td class="font-italic">@_message</td>
+                    <td></td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in MyTourVMs)
+                {
+                    <tr>
+                       <td>@item.Name</td>
+                       <td>@item.Country</td>
+                        <td>@item.City</td>
+                        
+                        <td>
+                            @foreach (var cat in @item.Categories)
+                            {
+                                <p>@cat</p>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var language in @item.Languages)
+                            {
+                                <a href="/guide/translatelistoverview/@item.TourId/3/@LanguageIso"><p>@language</p></a>
+                            }
+                        </td>
+                        <td><a href="guide/steplistoverview/@item.TourId/@LanguageIso"><span class="oi oi-eye"></span></a></td>
+                        <td class="text-end">
+                            <a class="btn btn-primary" title="Edit" href="guide/touredit/@item.TourId"><span class="oi oi-pencil"></span></a>
+                            <button class="btn btn-danger" title="Delete" @onclick="() => Delete(item.TourId)"><span class="oi oi-trash"></span></button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+

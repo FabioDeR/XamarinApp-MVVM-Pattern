@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.FlyoutMenu.FlyoutMenuPage"
+             xmlns:FlyoutHeader="clr-namespace:TabiTravel.XamarinAPP.FlyoutMenu"
+             xmlns:Item="clr-namespace:TabiTravel.XamarinAPP.FlyoutMenu.FlyoutItemClass"
+             xmlns:Page="clr-namespace:TabiTravel.XamarinAPP.Views"
+             xmlns:Model="clr-namespace:TabiTravel.XamarinAPP.FlyoutMenu.FlyoutItemClass"
+             BackgroundColor="White"
+             Title="FlyoutMenu" >
+    <StackLayout>
+        <FlyoutHeader:FlyoutHeader/>
+        <ListView x:Name="listView" x:FieldModifier="public">
+            <ListView.ItemsSource>
+                <x:Array Type="{x:Type Model:FlyoutItemPage}">
+                    <Item:FlyoutItemPage Title="Home" 
+                                         IconSource="iconhome" 
+                                         TargetPage="{x:Type Page:HomePage}"/>
+                    <Item:FlyoutItemPage Title="Map" 
+                                         IconSource="iconlist" 
+                                         TargetPage="{x:Type Page:MapPage}"/>
+                    <Item:FlyoutItemPage Title="My points of interest" 
+                                         IconSource="iconpin"  
+                                         TargetPage="{x:Type Page:InterestListPage}"/>
+                    <Item:FlyoutItemPage Title="Create a tour" 
+                                         IconSource="iconaddtour"  
+                                         TargetPage="{x:Type Page:TourEditPage}" />
+                    <Item:FlyoutItemPage Title="My tours" 
+                                         IconSource="icontour"  
+                                         TargetPage="{x:Type Page:TourListPage}" />
+                    <Item:FlyoutItemPage Title="Manage" 
+                                         IconSource="handshake"  
+                                         TargetPage="{x:Type Page:BookingListPage}" />
+                    <Item:FlyoutItemPage Title="History" 
+                                         IconSource="file"  
+                                         TargetPage="{x:Type Page:HistoricBookingListPage}" />
+                    <Item:FlyoutItemPage Title="View all interests" 
+                                         IconSource="iconpin"  
+                                         TargetPage="{x:Type Page:AllInterestListPage}" />                    
+                    <Item:FlyoutItemPage Title="View all tours" 
+                                         IconSource="icontour"  
+                                         TargetPage="{x:Type Page:AllTourListPage}" />
+                    <Item:FlyoutItemPage Title="My profile" 
+                                         IconSource="iconprofile"  
+                                         TargetPage="{x:Type Page:ProfileOverviewPage}" />                    
+                    <Item:FlyoutItemPage Title="Parameters" 
+                                         IconSource="iconparameter"  
+                                         TargetPage="{x:Type Page:ParameterOverviewPage}" />
+                </x:Array>
+            </ListView.ItemsSource>
+            <ListView.ItemTemplate >
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0"
+                                   Source="{Binding IconSource}" />
+                            <Label Grid.Column="1"
+                                   FontSize="Medium" 
+                                   Text="{Binding Title}" 
+                                   TextColor="Black" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

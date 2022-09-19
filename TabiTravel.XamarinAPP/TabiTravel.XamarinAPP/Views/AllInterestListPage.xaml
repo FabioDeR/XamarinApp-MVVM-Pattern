@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="All Interest"
+             x:Name="thisPage"
+               xmlns:converters="clr-namespace:TabiTravel.XamarinAPP.Converter"
+             x:Class="TabiTravel.XamarinAPP.Views.AllInterestListPage">
+    <ContentPage.Resources>
+        <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+                 IconImageSource="iconsearchbtn"                 
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout BindableLayout.ItemsSource="{Binding Interests}" 
+                             HorizontalOptions="Center" 
+                             VerticalOptions="FillAndExpand" 
+                             Padding="10"
+                             x:Name="PageContent"
+                             IsVisible="false">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Vertical" 
+                                         Padding="10">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference thisPage},Path=BindingContext.GoTo}"
+                                                                  CommandParameter="{Binding .}"/>
+                                </StackLayout.GestureRecognizers>
+
+                                <StackLayout>
+                                    <Label Text="{Binding Name}" 
+                                           FontSize="16" 
+                                           TextColor="{StaticResource DarkGreyColor}" 
+                                           FontAttributes="Bold" />
+                                    <StackLayout Orientation="Horizontal" Margin="0,-8,0,-1">
+                                        <Label FontSize="12" TextColor="{StaticResource LightGreyColor}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding City}"/>
+                                                    <Span Text=","/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding City, Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <Label FontSize="12"
+                                               TextColor="{StaticResource LightGreyColor}"
+                                               Text="{Binding Country}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                                <Frame Padding="0" CornerRadius="10" HasShadow="False" WidthRequest="360" HeightRequest="200">
+                                    <Image Source="{Binding ImageUrl}" Aspect="AspectFill" />
+                                </Frame>
+                                <Label Text="{Binding Content}" LineBreakMode="TailTruncation" MaxLines="3" FontSize="14" TextColor="{StaticResource GreyColor}" Margin="0,0,0,0"/>
+                                <FlexLayout
+                                     Wrap="Wrap"
+                                     Direction="Row"
+                                     JustifyContent="Start"                
+                                     BindableLayout.ItemsSource="{Binding Categories}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Image Source="iconprimarylabel"
+                                                       HeightRequest="14"/>
+                                                <Label Margin="-2,0,10,0" 
+                                                       TextColor="{StaticResource ThemeColor}"
+                                                       FontAttributes="Bold"
+                                                       FontSize="13"
+                                                       Text="{Binding .}">
+                                                </Label>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </FlexLayout>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                <!--#region Loader -->
+                <StackLayout x:Name="Loader" 
+                         IsVisible="False" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="FillAndExpand">
+                    <ActivityIndicator x:Name="activityIndicator" 
+                                   Color="{StaticResource ThemeColor}" 
+                                   IsRunning="True"
+                                   WidthRequest="45" 
+                                   HeightRequest="45"/>
+                </StackLayout>
+                <!--#endregion-->
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

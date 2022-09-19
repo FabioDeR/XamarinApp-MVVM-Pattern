@@ -1,0 +1,80 @@
+﻿@page "/tourist/bookingdetail/{Id}"
+@using TabiTravel.UI.Shared.Component
+@layout TouristLayout
+
+
+<h3>Booking Detail</h3>
+
+<a href="guide/bookinglistoverview" class="my-3 btn btn-dark"> Retour</a>
+<div class="form-group col-md-8">
+
+    @if (Id == null)
+    {
+        <Loader />
+    }
+    else
+    {
+        <p class="my-3 fw-bold">INFO TOUR</p>
+        <div><span>Name : @Item.TourName </span></div>
+        <img src="@Item.TourImg" alt="Logo Image" width="500" height="300">
+        <div>
+            <span>
+                Date : @Item.DateStart.ToShortDateString() -
+                @if (Item.DateEnd.Date == new DateTime())
+                {
+                    @Item.DateStart.ToShortDateString()
+                }
+                else
+                {
+                    @Item.DateEnd.ToShortDateString()
+                }
+            </span>
+        </div>
+
+        <p class="my-3 fw-bold">INFO PRICING</p>
+        @if (Item.NbAdult > 0)
+        {
+            <div><span>Adult(s) : @Item.NbAdult</span></div>
+            <div><span>Price : @Item.TotalPriceAdult €</span></div>
+        }
+        @if (Item.NbChild > 0)
+        {
+            <div><span>Child(s) : @Item.NbChild</span></div>
+            <div><span>Price : @Item.TotalPriceChild €</span></div>
+        }
+        @if (Item.NbVehicule > 0)
+        {
+            <div><span>Emplacement(s) : @Item.NbVehicule</span></div>
+            <div><span>Price : @Item.TotalPriceVehicule €</span></div>
+        }
+
+
+
+        <div><span class="mt-2">Total : @Item.TotalPrice €</span></div>
+
+        <p class="my-3 fw-bold ">INFO GUIDE</p>
+        <div><span>Name : @Item.GuideName</span></div>
+        <div><span>Nickname: @Item.GuideNickname</span></div>
+        <div><span>Mail : @Item.GuideEmail</span></div>
+        <div><span>Phone : @Item.GuidePhone</span></div>
+        <img src="@Item.GuideAvatar" alt="Logo Image" width="300" height="150">
+
+        <p class="my-3 fw-bold">INFO TOURIST</p>
+        <div><span>Name : @Item.touristName</span></div>
+        <div><span>Mail : @Item.touristEmail</span></div>
+        <div><span>Phone : @Item.touristPhone</span></div>
+        <img src="@Item.touristAvatar" alt="Logo Image" width="300" height="150">
+
+        <div class="my-3">
+            @if (Item.RefusedDate != new DateTime())
+            {
+                <span>Refuse Date : @Item.RefusedDate</span>
+            }
+            @if (Item.AcceptedDate != new DateTime())
+            {
+                <span>Accept Date : @Item.AcceptedDate</span>
+            }
+        </div>
+    }
+
+</div>

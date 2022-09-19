@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:converters="clr-namespace:TabiTravel.XamarinAPP.Converter" xmlns:local="clr-namespace:TabiTravel.XamarinAPP.Effects"
+             x:Class="TabiTravel.XamarinAPP.Views.TourDetailPage"
+             x:Name="thisPage"
+             Title="{Binding StepListOverviewVM.TourName}">
+
+
+
+    <ContentPage.Resources>
+        <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    </ContentPage.Resources>
+
+    <ScrollView>
+
+        <StackLayout Padding="0"
+                     Margin="0"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand">
+
+            <!-- ::: MAIN ::: -->
+            <StackLayout VerticalOptions="FillAndExpand"
+                         x:Name="PageContent"
+                         IsVisible="false">
+
+                <Frame HeightRequest="260"
+                       WidthRequest="400"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0"
+                       Padding="0">
+                    <Image x:Name="InterestImage"
+                           Source="{Binding StepListOverviewVM.ImageUrl}" 
+                           Aspect="AspectFill" />
+                </Frame>
+                <StackLayout Padding="15">
+                    <FlexLayout JustifyContent="SpaceBetween"
+                                Margin="0,0,0,-10">
+                        <!-- BINDING TOUR NAME -->
+                        <Label Text="{Binding StepListOverviewVM.TourName}" 
+                                           FontSize="16" 
+                                           TextColor="{StaticResource DarkGreyColor}" 
+                                           FontAttributes="Bold" />
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="iconpingray" HeightRequest="12"/>
+                            <Label Margin="-2,1,0,0"
+                                   FontSize="14"
+                                   TextColor="{StaticResource GreyColor}" >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding StepListOverviewVM.City}"/>
+                                        <Span Text=", "/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding StepListOverviewVM.City, Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                        <Setter Property="IsVisible" Value="False"/>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                            <Label Margin="-2,2,0,0"
+                                   FontSize="14"
+                                   Text="{Binding StepListOverviewVM.CountryName}"
+                                   TextColor="{StaticResource GreyColor}"/>
+                        </StackLayout>
+                    </FlexLayout>
+                    <Label Margin="0,20,0,0" Text="{Binding StepListOverviewVM.TourContent}" TextColor="{StaticResource GreyColor}"/>
+                    <!-- ::: TOUR INFO ::: LISTVIEW  ::: -->
+                    <StackLayout BindableLayout.ItemsSource="{Binding StepListOverviewVM.DayVMs}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Margin="0,25,0,0"
+                                             Padding="0,0,0,15">
+                                    <FlexLayout JustifyContent="SpaceBetween"
+                                                Margin="0,0,0,5">
+                                        <!-- BINDING DAY NUMBER -->
+                                        <Label FontAttributes="Bold"
+                                               FontSize="15"
+                                               TextColor="{StaticResource DarkGreyColor}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Day"/>
+                                                    <Span Text=" "/>
+                                                    <Span Text="{Binding Day}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                    </FlexLayout>
+                                    <BoxView HeightRequest="1" BackgroundColor="{StaticResource LightGreyColor}"/>
+                                    <StackLayout BindableLayout.ItemsSource="{Binding StepEditVMs}">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Frame Padding="5">
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference thisPage},Path=BindingContext.GoToDetail}"
+                                                                  CommandParameter="{Binding .}"/>
+                                                    </Frame.GestureRecognizers>
+                                                    <StackLayout>
+                                                        <StackLayout Orientation="Horizontal">
+                                                            <StackLayout>
+                                                                <!-- BINDING INTEREST IMAGE -->
+                                                                <Image Source="{Binding InterestImage}" BackgroundColor="{StaticResource LightGreyColor}" HeightRequest="120" WidthRequest="120" Aspect="AspectFill"  />
+                                                            </StackLayout>
+                                                            <StackLayout HorizontalOptions="FillAndExpand">
+                                                                <StackLayout Spacing="0">
+                                                                    <!-- BINDING STEP NAME -->
+                                                                    <Label Text="{Binding Name}" TextColor="{StaticResource DarkGreyColor}" FontAttributes="Bold"/>
+
+                                                                    <!-- BINDING INTEREST NAME -->
+                                                                    <Label Text="{Binding InterestName}" TextColor="{StaticResource DarkGreyColor}"/>
+                                                                </StackLayout>
+
+                                                                <!-- BINDING STEP CONTENT -->
+                                                                <Label Text="{Binding Content}"
+                                                                       LineBreakMode="TailTruncation" 
+                                                                       MaxLines="3"/>
+
+                                                                <!-- BINDING PREVIOUS STEP + UNIT -->
+                                                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand" Margin="0,10,0,0">
+                                                                    <Image Source="timetravel" HeightRequest="14"/>
+                                                                    <Label TextColor="{StaticResource LightGreyColor}" FontSize="12">
+                                                                        <Label.FormattedText>
+                                                                            <FormattedString>
+                                                                                <Span Text="{Binding PreviousStep}"/>
+                                                                                <Span Text=" "/>
+                                                                                <Span Text="{Binding Unit}"/>
+                                                                            </FormattedString>
+                                                                        </Label.FormattedText>
+                                                                    </Label>
+                                                                    <StackLayout.Triggers>
+                                                                        <DataTrigger TargetType="StackLayout" Binding="{Binding PreviousStep}" Value="0">
+                                                                            <Setter Property="IsVisible" Value="False"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger TargetType="StackLayout" Binding="{Binding PreviousStep,Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                                                            <Setter Property="IsVisible" Value="False"/>
+                                                                        </DataTrigger>
+                                                                    </StackLayout.Triggers>
+                                                                </StackLayout>
+                                                            </StackLayout>
+                                                        </StackLayout>
+
+                                                    </StackLayout>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+                                </StackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+
+                    <!--#region Pricing Info -->
+                    <StackLayout Margin="0,20" x:Name="PricingLayout">
+                        <Label Text="Pricing" 
+                               TextColor="{StaticResource DarkGreyColor}" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               Margin="0,0,0,15"/>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="labeliconadult" 
+                                       HeightRequest="14"/>
+                            <Label TextColor="{StaticResource GreyColor}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Adult (+12) : "/>
+                                        <Span Text="{Binding StepListOverviewVM.PricePerAdult}"/>
+                                        <Span Text=" €"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout" Binding="{Binding StepListOverviewVM.PricePerAdult,Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="labeliconchildren" HeightRequest="14"/>
+                            <Label TextColor="{StaticResource GreyColor}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Children (-12) : "/>
+                                        <Span Text="{Binding StepListOverviewVM.PricePerChild}"/>
+                                        <Span Text=" €"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout" Binding="{Binding StepListOverviewVM.PricePerChild,Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="tent" HeightRequest="14"/>
+                            <Label TextColor="{StaticResource GreyColor}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Tents / Campervans / Motorhomes : "/>
+                                        <Span Text="{Binding StepListOverviewVM.PricePerVehicule}"/>
+                                        <Span Text=" €"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <StackLayout.Triggers>
+                                <DataTrigger TargetType="StackLayout" Binding="{Binding StepListOverviewVM.PricePerVehicule,Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                            </StackLayout.Triggers>
+                        </StackLayout>
+
+                    </StackLayout>
+                    <!--#endregion-->
+
+                    <!--#region Guide Info -->
+                    <StackLayout Margin="0,20">
+                        <Label Text="Guide informations" 
+                               TextColor="{StaticResource DarkGreyColor}" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               Margin="0,0,0,15"/>
+                        <StackLayout Orientation="Horizontal" Spacing="20">
+                            <StackLayout>
+                                <Frame Padding="0" HeightRequest="80" WidthRequest="80" CornerRadius="40" >
+                                    <!--BINDING GUIDE IMG URL-->
+                                    <Image Source="{Binding StepListOverviewVM.Avatar}" Aspect="AspectFill" />
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout>
+                                <!--BINDING GUIDE NAME-->
+                                <Label Text="{Binding StepListOverviewVM.Name}"
+                                       TextColor="{StaticResource GreyColor}"
+                                       FontAttributes="Bold">
+                                    <!--<Label.GestureRecognizers>
+                                        -->
+                                    <!--BINDING GUIDE ID (GO TO PROFILE)-->
+                                    <!--
+                                        <TapGestureRecognizer  Command="{Binding GoTo}" />
+                                    </Label.GestureRecognizers>-->
+                                </Label>
+                                <StackLayout Spacing="5" Orientation="Horizontal">
+                                    <Image Source="labeliconphone" 
+                                   HeightRequest="14"/>
+                                    <!--BINDING PHONE NUMBER (x2)-->
+                                    <local:PhoneLabel Text="{Binding StepListOverviewVM.Phone}"
+                                              PhoneNumber="{Binding StepListOverviewVM.Phone}"
+                                              VerticalTextAlignment="Center"/>
+                                </StackLayout>
+
+                                <StackLayout Spacing="5"  
+                                     Orientation="Horizontal">
+                                    <Image Source="labeliconmail" 
+                                   HeightRequest="14"/>
+                                    <!--BINDING EMAIL (x2)-->
+                                    <local:EmailLabel Text="{Binding StepListOverviewVM.Mail}"
+                                              Mail="{Binding StepListOverviewVM.Mail}"
+                                              VerticalTextAlignment="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                    <!--#endregion-->
+
+                </StackLayout>
+
+                <StackLayout x:Name="ButtonBooking" VerticalOptions="EndAndExpand"
+                             Padding="15,35,15,30">
+                    <Button Text="Booking"
+                            TextColor="White"
+                            BackgroundColor="{StaticResource ThemeColor}"
+                            FontAttributes="Bold" 
+                            CornerRadius="5"
+                            Clicked="Button_Booking_Clicked"/>
+                </StackLayout>
+            </StackLayout>
+            <!--#region Loader -->
+            <StackLayout x:Name="Loader" 
+                         IsVisible="False" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="FillAndExpand">
+                <ActivityIndicator x:Name="activityIndicator" 
+                                   Color="{StaticResource ThemeColor}" 
+                                   IsRunning="True"
+                                   WidthRequest="45" 
+                                   HeightRequest="45"/>
+            </StackLayout>
+            <!--#endregion-->
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

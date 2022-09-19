@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:TabiTravel.XamarinAPP.Converter"
+             x:Name="thisPage"
+             x:Class="TabiTravel.XamarinAPP.Views.TourListPage" 
+             Title="My Tours">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+                 IconImageSource="iconsearchbtn"                 
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    </ContentPage.Resources>
+    <ScrollView>
+        <StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand"
+                         x:Name="PageContent"
+                         IsVisible="false"
+                         Padding="10">
+                <StackLayout BindableLayout.ItemsSource="{Binding GetMyTourListVMs}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Vertical" 
+                                         Padding="10">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference thisPage},Path=BindingContext.GoTo}"
+                                                                  CommandParameter="{Binding .}"/>
+                                </StackLayout.GestureRecognizers>
+                                <StackLayout>
+                                    <!--TOUR NAME-->
+                                    <Label Text="{Binding Name}" 
+                                           FontSize="16" 
+                                           TextColor="{StaticResource DarkGreyColor}" 
+                                           FontAttributes="Bold" />
+                                    <!--CITY + COUNTRY TOUR-->
+                                    <StackLayout Orientation="Horizontal" Margin="0,-8,0,-1">
+                                        <Label FontSize="12"
+                                           x:Name="City" TextColor="{StaticResource LightGreyColor}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding City}"/>
+                                                    <Span Text=","/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding City, Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                        <Label FontSize="12"
+                                           Text="{Binding Country}"
+                                               TextColor="{StaticResource LightGreyColor}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                                <!--TOUR IMAGE-->
+                                <StackLayout VerticalOptions="FillAndExpand">
+                                    <Frame Padding="0" CornerRadius="10" HasShadow="False">
+                                        <RelativeLayout>
+                                            <Image Source="{Binding ImageUrl}" x:Name="TourImage" Aspect="AspectFill" WidthRequest="360" HeightRequest="200" />
+                                            <StackLayout WidthRequest="360" HeightRequest="200">
+                                                <StackLayout.Background>
+                                                    <LinearGradientBrush EndPoint="0,1">
+                                                        <GradientStop Color="#18000000" Offset="0" />
+                                                        <GradientStop Color="#0D000000" Offset="0.15" />
+                                                        <GradientStop Color="Transparent" Offset="0.30" />
+                                                        <GradientStop Color="Transparent" Offset="0.70" />
+                                                        <GradientStop Color="#18000000" Offset="0.85" />
+                                                        <GradientStop Color="#43000000" Offset="1.0" />
+                                                    </LinearGradientBrush>
+                                                </StackLayout.Background>
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal"
+                                                     RelativeLayout.XConstraint= "{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=10}"
+                                                     RelativeLayout.YConstraint= "{ConstraintExpression Type=RelativeToView, ElementName=TourImage, Property=Height, Factor=0.835, Constant=0}">
+                                                <Label Text="Adult price"
+                                                   TextColor="White"                  
+                                                   VerticalTextAlignment="End"
+                                                   Margin="0,0,0,3"/>
+                                                <Label Text="{Binding PricePerAdult}"
+                                                   FontSize="24"
+                                                   TextColor="White"
+                                                   FontAttributes="Bold"/>
+                                                <Label Text="€"
+                                                   TextColor="White"
+                                                   VerticalTextAlignment="End"
+                                                   Margin="-5,0,0,3"/>
+                                                <StackLayout.Triggers>
+                                                    <DataTrigger TargetType="StackLayout" Binding="{Binding PricePerAdult, Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                                        <Setter Property="IsVisible" Value="False"/>
+                                                    </DataTrigger>
+                                                </StackLayout.Triggers>
+                                            </StackLayout>
+                                        </RelativeLayout>
+                                    </Frame>
+                                </StackLayout>
+                                <!--TOUR CONTENT-->
+                                <Label Text="{Binding Content}" LineBreakMode="TailTruncation" MaxLines="3" FontSize="14" TextColor="{StaticResource GreyColor}"/>
+                                <FlexLayout
+                                     Wrap="Wrap"
+                                     Direction="Row"
+                                     JustifyContent="Start"                
+                                     BindableLayout.ItemsSource="{Binding Categories}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Image Source="iconprimarylabel"
+                                                       HeightRequest="14"/>
+                                                <Label Margin="-2,0,10,0" 
+                                                       TextColor="{StaticResource ThemeColor}"
+                                                       FontAttributes="Bold"
+                                                       FontSize="13"
+                                                       Text="{Binding}">
+                                                </Label>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </FlexLayout>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                <StackLayout x:Name="StackButtonAdd" IsVisible="false" VerticalOptions="FillAndExpand">
+                    <!-- ADD DAY LINK -->
+                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                        <Label  Text="You have not registered a tour" TextColor="{StaticResource LightGreyColor}"/>
+                    </StackLayout>
+                    <StackLayout VerticalOptions="EndAndExpand">
+                        <Button Text="ADD Tour"
+                                Command="{Binding GoToTwo}"
+                            TextColor="White"                          
+                            FontAttributes="Bold"
+                            BackgroundColor="{StaticResource ThemeColor}"
+                            CornerRadius="5"
+                            Margin="15"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <!--#region Loader -->
+            <StackLayout x:Name="Loader" 
+                         IsVisible="False" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="FillAndExpand">
+                <ActivityIndicator x:Name="activityIndicator" 
+                                   Color="{StaticResource ThemeColor}" 
+                                   IsRunning="True"
+                                   WidthRequest="45" 
+                                   HeightRequest="45"/>
+            </StackLayout>
+            <!--#endregion-->
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

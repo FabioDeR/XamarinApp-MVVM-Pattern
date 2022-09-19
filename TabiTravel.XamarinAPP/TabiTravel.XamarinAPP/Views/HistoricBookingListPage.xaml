@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:TabiTravel.XamarinAPP.Converter"
+             Title="History"
+             x:Class="TabiTravel.XamarinAPP.Views.HistoricBookingListPage">
+    <ContentPage.Resources>
+        <converters:CompareDateConverter x:Key="CompareConverter"/>
+        <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+    </ContentPage.Resources>
+    <StackLayout>
+        <StackLayout VerticalOptions="FillAndExpand" 
+                     Padding="10"
+                     x:Name="PageContent" 
+                     IsVisible="false">
+            <Label x:Name="StackLabel" IsVisible="false"  Text="You have not yet made a reservation" TextColor="{StaticResource LightGreyColor}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+            <ListView ItemsSource="{Binding BookingListVM}" ItemSelected="ListView_ItemSelected" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"
+                       SeparatorVisibility="None" HasUnevenRows="True" BackgroundColor="White">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical"
+                     Padding="10">
+
+                                <Frame Padding="0">
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout>
+                                            <RelativeLayout>
+                                                <!--BINDING TOUR IMG URL-->
+                                                <Image Source="{Binding TourImg}" 
+                                                       Aspect="AspectFill" 
+                                                       WidthRequest="120" 
+                                                       HeightRequest="110" />
+                                                <StackLayout Margin="5">
+                                                    <!--BINDING ISACCEPTED / ISREFUSED -->
+                                                    <Image HeightRequest="20">
+                                                        <Image.Triggers>
+                                                            <DataTrigger TargetType="Image" Binding="{Binding IsAccepted}" Value="true">
+                                                                <Setter Property="Source" Value="accepted"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Image" Binding="{Binding IsRefused}" Value="true">
+                                                                <Setter Property="Source" Value="warning"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Image" Binding="{Binding IsWaiting}" Value="true">
+                                                                <Setter Property="Source" Value="waiting"/>
+                                                            </DataTrigger>
+                                                        </Image.Triggers>
+                                                    </Image>
+                                                </StackLayout>
+                                            </RelativeLayout>
+                                        </StackLayout>
+                                        <FlexLayout Direction="Column" JustifyContent="SpaceBetween">
+
+                                            <StackLayout Spacing="-2">
+                                                <!--BINDING TOUR NAME-->
+                                                <Label Text="{Binding TourName}" 
+                                                   FontSize="16" 
+                                                   TextColor="{StaticResource DarkGreyColor}" 
+                                                   FontAttributes="Bold" />
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label FontSize="12" TextColor="{StaticResource LightGreyColor}">
+                                                        <Label.FormattedText>
+                                                            <!--BINDING CITY + COUNTRY-->
+                                                            <FormattedString>
+                                                                <Span Text="{Binding TourCity}"/>
+                                                                <Span Text=","/>
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding TourCity, Converter={StaticResource NullToBooleanConverter}}" Value="False">
+                                                                <Setter Property="IsVisible" Value="False"/>
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                    <Label FontSize="12"
+                                                       Text="{Binding TourCountry}"
+                                                       TextColor="{StaticResource LightGreyColor}"/>
+                                                </StackLayout>
+                                            </StackLayout>
+
+                                            <StackLayout Spacing="0">
+                                                <!--BINDING DATE START + DATE END-->
+                                                <Label Text="{Binding DateStart, StringFormat='{0:dddd, dd MMMM yyyy}'}" TextColor="{StaticResource GreyColor}"/>
+                                                <Label Text="{Binding DateEnd, StringFormat='{0:dddd, dd MMMM yyyy}'}" TextColor="{StaticResource GreyColor}"/>
+                                            </StackLayout>
+
+                                            <StackLayout Orientation="Horizontal">
+                                                <!--BINDING GUIDE or TOURIST NAME-->
+                                                <Label Text="Guide :" TextColor="{StaticResource GreyColor}" FontAttributes="Bold"/>
+                                                <Label Text="{Binding GuideName}" />
+                                            </StackLayout>
+                                        </FlexLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <!--#region Loader -->
+        <StackLayout x:Name="Loader" 
+                         IsVisible="False" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="FillAndExpand">
+            <ActivityIndicator x:Name="activityIndicator" 
+                                   Color="{StaticResource ThemeColor}" 
+                                   IsRunning="True"
+                                   WidthRequest="45" 
+                                   HeightRequest="45"/>
+        </StackLayout>
+        <!--#endregion-->
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,145 @@
+﻿@page "/tourist/search"
+@using TabiTravel.UI.Shared.Component
+@layout TouristLayout
+
+
+<h3>Search page</h3>
+<EditForm Model="@Item" OnValidSubmit="@HandleValidRequest">
+    <button type="button" @onclick="() => ShowFilter()"> Filters</button>
+    @if (IsShowFilters)
+    {
+        <div class="form-group row">
+            <span>ACCESSIBILITIES :</span>
+            <div class="col-auto mt-1">
+                <label for="PRM" class="me-2">PRM Friendly</label> <InputCheckbox @bind-Value="@Item.IsPRMFriendly" id="PRM"></InputCheckbox>
+                <label for="Animal" class="mx-2">&nbsp; Animal Friendly </label><InputCheckbox @bind-Value="@Item.IsAnimalFriendly" id="Animal"></InputCheckbox>
+                <label for="Child" class="mx-2">&nbsp; Child Friendly </label><InputCheckbox @bind-Value="@Item.IsChildFriendly" id="Child"></InputCheckbox>
+            </div>
+        </div>
+
+
+        <div class="form-group row mt-3">
+            <span>PRICINGS :</span>
+            <div class="col-auto">
+                <label for="Free" class="me-2">Free</label> <InputCheckbox @bind-Value="@Item.IsFree" id="Free"></InputCheckbox>
+                <label for="Adult" class="mx-2">&nbsp; Max Price Adult : </label><InputNumber @bind-Value="@Item.PricePerAdult" id="Adult" class="col-2"></InputNumber>
+                <label for="Child" class="mx-2">&nbsp; Max Price Child : </label><InputNumber @bind-Value="@Item.PricePerChild" id="Child" class="col-2"></InputNumber>
+                <label for="Vehicule" class="mx-2">&nbsp; Max Price Emplacement : </label><InputNumber @bind-Value="@Item.PricePerVehicule" id="Child" class="col-2"></InputNumber>
+            </div>
+        </div>
+
+        <div class="form-group row mt-3">
+            <span>OPENING DAYS :</span>
+            <div class="col-auto">
+                <label for="Monday" class="me-2">Monday</label> <InputCheckbox @bind-Value="@Item.IsMonday" id="Monday"></InputCheckbox>
+                <label for="Tuesday" class="mx-2">Tuesday</label> <InputCheckbox @bind-Value="@Item.IsTuesday" id="Tuesday"></InputCheckbox>
+                <label for="Wednesday" class="mx-2">Wednesday</label> <InputCheckbox @bind-Value="@Item.IsWednesday" id="Wednesday"></InputCheckbox>
+                <label for="Thursday" class="mx-2">Thursday</label> <InputCheckbox @bind-Value="@Item.IsThursday" id="Thursday"></InputCheckbox>
+                <label for="Friday" class="mx-2">Friday</label> <InputCheckbox @bind-Value="@Item.IsFriday" id="Friday"></InputCheckbox>
+                <label for="Saturday" class="mx-2">Saturday</label> <InputCheckbox @bind-Value="@Item.IsSaturday" id="Saturday"></InputCheckbox>
+                <label for="Sunday" class="mx-2">Sunday</label> <InputCheckbox @bind-Value="@Item.IsSunday" id="Sunday"></InputCheckbox>
+            </div>
+        </div>
+
+        <div class="form-group row mt-3">
+            <span>CATEGORY :</span>
+            <div class="col-auto">
+                <InputSelect @bind-Value="@Item.CategoryId" id="inputCategory">
+                    <option selected value="0">No category selected</option>
+                    @foreach (var category in Categories)
+                    {
+                    <option value="@category.CategoryId">@category.Name</option>
+                    }
+            </InputSelect>
+        </div>
+    </div>
+
+        <div class="form-group row mt-3">
+            <span>OTHERS :</span>
+            <div class="col-auto">
+                <label for="Name" class="me-2">Name</label> <InputText @bind-Value="@Item.Name" id="Name"></InputText>
+                <label for="City" class="mx-2">City</label> <InputText @bind-Value="@Item.City" id="City"></InputText>
+            </div>
+        </div>
+
+        <div class="form-group row mt-3">
+            <span>SEARCH ON :</span>
+            <div class="col-auto">
+                <InputSelect @bind-Value="@Item.enumSearch" id="inputCategory" @onclick="LoadList">
+                    @foreach (var choice in Enum.GetValues(typeof(TabiTravel.Shared.Enum.EnumSearch)))
+                    {
+                    <option value="@choice">@choice</option>
+                    }
+            </InputSelect>
+        </div>
+    </div>
+
+        <div class="form-group row mt-3">
+            <span>LANGUAGE :</span>
+            <div class="col-auto">
+                <InputSelect @bind-Value="@Item.LanguageIso" id="inputLanguage">
+                    @foreach (var language in Languages)
+                    {
+                    <option value="@language.ISOCode">@language.ISOCode</option>
+                    }
+            </InputSelect>
+        </div>
+    </div>
+        <button class="btn btn-primary mt-2">Search</button>
+    }
+</EditForm>
+<div class="my-3">
+    @*Show Interest*@
+    @if ((int)Item.enumSearch == 1 && MyInterestList != null)
+    {
+        <div class="form-group row">
+            @foreach (var interest in MyInterestList)
+            {
+                <div class="card-group my-3 cursor col-6" @onclick="() => GoToInterestOverview(interest.InterestId)">
+                    <div class="card">
+                        <img class="card-img-top" src="@interest.ImageUrl" alt="@interest.Name image" height="200" width="400">
+                        <div class="card-body">
+                            <h5 class="card-title">@interest.Name</h5>
+                            <span class="card-text">@interest.Country, @interest.City</span>
+                            <p class="card-text">@interest.Content</p>
+                            @foreach (var cat in interest.Categories)
+                            {
+                                <span class="card-text">&nbsp; @cat</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    @*Show Tour*@
+    @if ((int)Item.enumSearch == 2 && MyTourList != null)
+    {
+        <div class="form-group row">
+            @foreach (var tour in MyTourList)
+            {
+                <div class="card-group my-3 cursor col-6" @onclick="() => GoToTourOverview(tour.TourId)">
+                    <div class="card">
+                        <img class="card-img-top" src="@tour.ImageUrl" alt="@tour.Name image" height="200" width="400">
+                        <div class="card-body">
+                            <h5 class="card-title">@tour.Name</h5>
+                            <span class="card-text">@tour.Country, @tour.City</span>
+                            <p class="card-text">@tour.Content</p>
+                            @foreach (var cat in tour.Categories)
+                            {
+                                <span class="card-text">&nbsp; @cat</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    </div>
+
+    <style>
+        .cursor {
+            cursor: pointer;
+        }
+    </style>

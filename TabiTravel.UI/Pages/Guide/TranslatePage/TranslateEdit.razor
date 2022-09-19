@@ -1,0 +1,36 @@
+﻿@page "/guide/translateedit/{Id}/{Enumint}/{LanguageIso}"
+@page "/guide/translateedi/{Id}/{Enumint}"
+@using TabiTravel.UI.Shared.Component
+@layout GuideLayout
+
+
+<h3>Tour Edit</h3>
+<div class="form-group col-md-6">
+
+
+        <EditForm Model="@Item" OnValidSubmit="@HandleValidRequest">
+            @if(LanguageIso != null){
+              <p>Selected language : @Item.LanguageIso</p>
+            }
+
+            <p class="mt-2">Select your language :</p>
+           <InputSelect class="col-6 form-control" @bind-Value="@Item.LanguageIso" id="inputLanguage">
+           <option selected value="0" disabled>No language selected</option>
+            @foreach (var language in LanguageNotUsed)
+            {
+               <option value="@language">@language</option>
+            }
+          </InputSelect>
+
+
+            <label class="mt-3 col-6" for="inputDescription">Description</label>
+            <InputTextArea class="form-control" @bind-Value="@Item.Content" id="inputDescription"></InputTextArea>
+
+
+        <BtnSaveAndCancel ReturnLink="$/admin/translatelistoverview{Id}/{Enumint/EN}" />
+
+
+        <DataAnnotationsValidator />
+    </EditForm>
+
+</div>

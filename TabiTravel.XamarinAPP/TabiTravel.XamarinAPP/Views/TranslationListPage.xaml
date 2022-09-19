@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.Views.TranslationListPage"
+             IconImageSource="labelicontranslate"
+             x:Name="thisPage"
+             Title="Translate Overview">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+                 IconImageSource="icontoolbarplus"                 
+                 Order="Primary"
+                 Priority="0"
+                 Command="{Binding GoTo}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center" VerticalOptions="FillAndExpand" Padding="10">
+
+            <ListView ItemsSource="{Binding TranslateVMs}" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"
+                       SeparatorVisibility="None" HasUnevenRows="True" BackgroundColor="White">
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <ViewCell>
+                            <StackLayout Padding="15">
+                                <Frame Margin="0,0,0,25" Padding="10">
+                                    <StackLayout>
+                                        <FlexLayout JustifyContent="SpaceBetween">
+                                            <Label Text="{Binding LanguageIso}" 
+                                                   TextColor="{StaticResource DarkGreyColor}" 
+                                                   FontSize="16" 
+                                                   FontAttributes="Bold" />
+                                            <StackLayout x:Name="EditTranslateLink"                                                           
+                                                         Orientation="Horizontal">
+                                                <ImageButton Source="delete"                                                         
+                                                             BackgroundColor="Transparent"
+                                                             Command="{Binding Source={x:Reference thisPage},Path=BindingContext.Delete}"
+                                                             CommandParameter="{Binding .}"
+                                                             HeightRequest="20"                                                             
+                                                             Margin="0,0,0,2"/>
+                                                <ImageButton Source="editer" 
+                                                             BackgroundColor="Transparent"
+                                                             Command="{Binding Source={x:Reference thisPage},Path=BindingContext.Update}"
+                                                             CommandParameter="{Binding .}"
+                                                             HeightRequest="20"
+                                                             Margin="0,0,0,2"/>
+
+                                            </StackLayout>
+                                        </FlexLayout>
+                                        <BoxView BackgroundColor="Silver" 
+                                                 HeightRequest="1"
+                                                 Margin="0,5"/>
+                                        <Label Text="{Binding Content}"
+                                               TextColor="{StaticResource GreyColor}"
+                                               Margin="0,0,0,20" />
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

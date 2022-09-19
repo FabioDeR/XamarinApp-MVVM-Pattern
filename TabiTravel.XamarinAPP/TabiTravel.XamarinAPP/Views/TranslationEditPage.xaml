@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:effects="clr-namespace:TabiTravel.XamarinAPP.Effects"
+             x:Class="TabiTravel.XamarinAPP.Views.TranslationEditPage"
+             Title="Translation">
+    <ContentPage.Content>
+        <ScrollView>
+
+            <StackLayout Padding="20">
+                <StackLayout x:Name="PickerStack">
+                    <Frame HasShadow="False" CornerRadius="5" Padding="6" Margin="0,0,0,10" BorderColor="Silver">
+                    <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                        <Label Text="Select your language"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                            <Picker  TextColor="{StaticResource DarkGreyColor}"
+                                 FontSize="16" 
+                                 Margin="0,12,0,-15"
+                                 ItemsSource="{Binding Languages}"   
+                                 SelectedItem="{Binding SelectedLanguage}">
+                            <Picker.Effects>
+                                <effects:CustomEntry/>
+                            </Picker.Effects>
+                        </Picker>
+                    </Grid>
+                </Frame>
+                </StackLayout>
+
+                <Label Text="{Binding MyLanguage}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource DarkGreyColor}"/>
+
+                <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,25" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                    <Grid RowDefinitions="Auto, 480" 
+                      ColumnDefinitions="*">
+                        <Label Text="Description"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                        <Editor TextColor="{StaticResource DarkGreyColor}"
+                            FontSize="16"
+                            VerticalOptions="EndAndExpand" 
+                            HeightRequest="550" 
+                            Text="{Binding TranslateVM.Content}"
+                            Placeholder="Write some words about POI ... " 
+                            Grid.Row="1" 
+                            Grid.Column="0" 
+                            Margin="0,0,0,-1">
+                            <Editor.Effects>
+                                <effects:CustomEntry/>
+                            </Editor.Effects>
+                        </Editor>
+                    </Grid>
+                </Frame>
+                <Button 
+                x:Name="SaveButton"
+                Text="Save" 
+                    BackgroundColor="{StaticResource ThemeColor}" 
+                    TextColor="White" 
+                    Command="{Binding Save}"
+                    FontAttributes="Bold" 
+                    CornerRadius="5">
+                </Button>
+                <Button 
+                x:Name="UpdateButton"
+                Text="Update" 
+                    BackgroundColor="{StaticResource ThemeColor}" 
+                    Command="{Binding Update}"
+                    TextColor="White"                     
+                    FontAttributes="Bold" 
+                    CornerRadius="5">
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

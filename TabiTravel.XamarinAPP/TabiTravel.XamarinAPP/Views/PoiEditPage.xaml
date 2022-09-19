@@ -1,0 +1,801 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.Views.PoiEditPage"
+             xmlns:effects="clr-namespace:TabiTravel.XamarinAPP.Effects"
+            x:Name="thisPage"
+             Title="Edit Point of Interest">
+    <ScrollView>
+        <StackLayout>
+
+            <!--#region Pictures Area -->
+            <StackLayout HeightRequest="260">
+                <RelativeLayout>
+                    <Frame HeightRequest="260"
+                       WidthRequest="400"
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0"
+                       Padding="0">
+                        <Image x:Name="InterestImage"
+                           Source="{Binding Interest.ImageUrl}" 
+                           Aspect="AspectFill" />
+                    </Frame>
+                </RelativeLayout>
+            </StackLayout>
+            <StackLayout>
+                <ImageButton Source="buttoncamera"
+                             Margin="0,-28,15,0"
+                             Command="{Binding PostPhoto}"
+                             BackgroundColor="{StaticResource ThemeColor}"                                   
+                             CornerRadius="22"                                 
+                             HeightRequest="44" 
+                             WidthRequest="44"
+                             HorizontalOptions="End"
+                             Padding="10"/>
+            </StackLayout>
+            <!--#endregion-->
+
+            <StackLayout  Padding="20,10,20,30" VerticalOptions="FillAndExpand">
+
+                <!--#region Details Area -->
+                <StackLayout Margin="0,0,0,10">
+                    <Grid RowDefinitions="Auto"
+                          ColumnDefinitions="*,15">
+                        <Label TextColor="{StaticResource DarkGreyColor}" 
+                               Text="Point of interest details" 
+                               FontSize="16" 
+                               FontAttributes="Bold"                   
+                               Grid.Row="0" 
+                               Grid.Column="0"/>
+                        <Image Source="iconuparrow"
+                                     x:Name="DetailArrow"
+                                     HeightRequest="15"
+                                     WidthRequest="15"
+                                     Grid.Row="0" 
+                                     Grid.Column="1"/>
+                    </Grid>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ShowDetail_Clicked" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout x:Name="DetailEntry"
+                             IsVisible="True">
+                    <Frame HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*">
+                            <Label Text="Name"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Entry TextColor="{StaticResource DarkGreyColor}" 
+                                   Text="{Binding Interest.Name}"
+                                   FontSize="16"
+                                   Placeholder="ex : Atomium" 
+                                   Grid.Row="1" 
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+                    <Label x:Name="Interest_NameError" IsVisible="False" TextColor="{StaticResource WarningColor}" />
+                    <Frame HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, 240" 
+                              ColumnDefinitions="*">
+                            <Label Text="Description"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Editor TextColor="{StaticResource DarkGreyColor}"
+                                    FontSize="16"
+                                    VerticalOptions="EndAndExpand" 
+                                    HeightRequest="240" 
+                                    Text="{Binding Content}"
+                                    Placeholder="Write some words about POI ... " 
+                                    Grid.Row="1" 
+                                    Grid.Column="0" 
+                                    Margin="0,0,0,-1">
+                                <Editor.Effects>
+                                    <effects:CustomEntry/>
+                                </Editor.Effects>
+                            </Editor>
+                        </Grid>
+                    </Frame>
+                    <Frame HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,25" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,32">
+                            <Label Text="Estimated time on-site (minutes)" 
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Image Source="icontimer"
+                                   Grid.Row="1" 
+                                   Grid.Column="1" 
+                                   Margin="0,0,10,0"/>
+                            <Entry TextColor="{StaticResource DarkGreyColor}"
+                                   ClassId="ET"
+                                   FontSize="16"
+                                   Placeholder="ex : 120" 
+                                   TextChanged="Entry_TextChanged"
+                                   Text="{Binding Interest.EstimatedTime}"
+                                   Grid.Row="1" 
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8"
+                                   Keyboard="Numeric">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+                <!--#endregion-->
+
+                <!--#region Contact Area -->
+                <StackLayout Margin="0,0,0,10">
+                    <Grid RowDefinitions="Auto"
+                          ColumnDefinitions="*,15">
+                        <Label TextColor="{StaticResource DarkGreyColor}" 
+                               Text="Location informations" 
+                               FontSize="16" 
+                               FontAttributes="Bold"                   
+                               Grid.Row="0" 
+                               Grid.Column="0"/>
+                        <Image Source="iconuparrow"
+                                     x:Name="LocationArrow"
+                                     HeightRequest="15"
+                                     WidthRequest="15"
+                                     Grid.Row="0" 
+                                     Grid.Column="1"/>
+                    </Grid>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ShowLocation_Clicked" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+                <StackLayout x:Name="LocationEntry"
+                         IsVisible="True">
+                    <Frame HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*">
+                            <Label Text="Address" 
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Entry TextColor="{StaticResource DarkGreyColor}"
+                                   FontSize="16"
+                                   Placeholder="ex : Place de l'Atomium, 1" 
+                                   Text="{Binding Interest.Address}"
+                                   Grid.Row="1" 
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+
+                    <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}"    >
+                        <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                            <Label Text="Zip Code" 
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                            <Entry TextColor="{StaticResource DarkGreyColor}" 
+                           FontSize="16"
+                           Placeholder="ex : 1020" 
+                           Text="{Binding Interest.ZipCode}"
+                           Keyboard="Numeric"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-5">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+
+                    <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                            <Label Text="City" 
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                            <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Placeholder="ex : Bruxelles" 
+                           Text="{Binding Interest.City}"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-5"
+                           ClassId="CY"
+                           TextChanged="Entry_TextChanged">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+
+                    <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}"    >
+                        <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                            <Label Text="Country"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                            <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Placeholder="ex : Belgium" 
+                           Grid.Row="1" 
+                           Text="{Binding CountryName}"
+                           Grid.Column="0" 
+                           Margin="0,0,0,-5">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+
+                    <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}"    >
+                        <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                            <Label Text="Phone"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                            <Entry TextColor="{StaticResource DarkGreyColor}" 
+                           FontSize="16"
+                           Placeholder="ex : +3221234567" 
+                           Text="{Binding Interest.Phone}"
+                           Keyboard="Telephone"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-5">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+
+                    <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}"    >
+                        <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                            <Label Text="Email" 
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                            <Entry TextColor="{StaticResource DarkGreyColor}" 
+                           FontSize="16"
+                           Placeholder="ex : info@atomium.be" 
+                            Text="{Binding Interest.Email}"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-5">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+
+                    <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,25" 
+                   BorderColor="{StaticResource LightGreyColor}"    >
+                        <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                            <Label Text="Website"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                            <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Placeholder="ex : www.atomium.be" 
+                           Text="{Binding Interest.Url}"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-5">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+                <!--#endregion-->
+
+                <!--#region Categories Area -->
+                <StackLayout Margin="0,0,0,10">
+                    <Grid RowDefinitions="Auto"
+                          ColumnDefinitions="*,15">
+                        <Label TextColor="{StaticResource DarkGreyColor}" 
+                               Text="Categories" 
+                               FontSize="16" 
+                               FontAttributes="Bold"                   
+                               Grid.Row="0" 
+                               Grid.Column="0"/>
+                        <Image Source="iconuparrow"
+                                     x:Name="CategoriesArrow"
+                                     HeightRequest="15"
+                                     WidthRequest="15"
+                                     Grid.Row="0" 
+                                     Grid.Column="1"/>
+                    </Grid>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ShowCategories_Clicked" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+                <StackLayout x:Name="CategoriesEntry"
+                         IsVisible="False">
+                    <FlexLayout Wrap="Wrap"
+                        Direction="Row"
+                        JustifyContent="SpaceBetween" 
+                        Margin="0,0,0,20"
+                        BindableLayout.ItemsSource="{Binding CategoryList}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout  Orientation="Horizontal">
+                                    <CheckBox ClassId="{Binding CategoryId}" CheckedChanged="CheckBox_CheckedChanged" IsChecked="{Binding IsSelected}">
+
+                                    </CheckBox>
+                                    <Label Text="{Binding Name}" VerticalOptions="Center" />
+                                </StackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                    <Frame x:Name="FrameEmplacement" IsVisible="false" HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,25" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                            <Label Text="Tents / Campervans / Motorhomes"                                    
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                            <Entry x:Name="EntryNumberEmplacement"
+                           TextColor="{StaticResource DarkGreyColor}"
+                           ClassId="PPE"
+                           FontSize="16"
+                           Keyboard="Numeric"
+                           Placeholder="ex : 9" 
+                           TextChanged="Entry_TextChanged"                    
+                                   
+                           Text="{Binding Interest.EmplacementAvailable}"
+                           Grid.Row="1"
+                           Grid.Column="0" 
+                           Margin="0,0,0,-8">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                        </Grid>
+                    </Frame>
+                    <Label x:Name="Interest_EmplacementAvailableError" IsVisible="False" TextColor="{StaticResource WarningColor}" />
+                </StackLayout>
+                <!--#endregion-->
+               
+                <!--#region Pricing -->
+                <StackLayout Margin="0,0,0,10">
+                    <Grid RowDefinitions="Auto"
+                       ColumnDefinitions="*,15">
+                        <Label TextColor="{StaticResource DarkGreyColor}" 
+                               Text="Pricings" 
+                               FontSize="16" 
+                               FontAttributes="Bold"                   
+                               Grid.Row="0" 
+                               Grid.Column="0"/>
+                        <Image Source="iconuparrow"
+                                     x:Name="PricingArrow"
+                                     HeightRequest="15"
+                                     WidthRequest="15"
+                                     Grid.Row="0" 
+                                     Grid.Column="1"/>
+                    </Grid>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ShowPricing_Clicked" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+                <StackLayout x:Name="PricingEntry"
+                         IsVisible="False">
+                    <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,0">
+                        <Label Text="Free Access ?"
+                               FontSize="16"
+                               TextColor="{StaticResource DarkGreyColor}"  
+                               Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}"
+                                BackgroundColor="White"
+                                Grid.Column="1" 
+                                IsToggled="{Binding Interest.IsFree}" 
+                                Toggled="Handle_Toggled"/>
+                    </Grid>
+                    <Frame x:Name="EntryPricePerAdult"
+                           HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,20">
+                            <Label Text="Per Adult (+12)"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}"                                    
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Entry x:Name="EntryNumberPricePerAdult"
+                                   ClassId="PPA"
+                                   TextColor="{StaticResource DarkGreyColor}"
+                                   FontSize="16"                                   
+                                   Keyboard="Numeric"
+                                   TextChanged="Entry_TextChanged"
+                                   Placeholder="ex : 9"                                   
+                                   Text="{Binding Interest.PricePerAdult}"
+                                   Grid.Row="1"
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                            <Label Text="€"
+                                   FontSize="20"
+                                   TextColor="{StaticResource LightGreyColor}"                                  
+                                   Grid.Row="1" 
+                                   Grid.Column="1"/>
+                        </Grid>
+                    </Frame>
+                    <Frame x:Name="EntryPricePerChild"
+                           HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,25" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,20">
+
+                            <Label x:Name="EntryPriceChild"
+                                   Text="Per Child (-12)"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Entry x:Name="EntryNumberPricePerChild"
+                                   TextColor="{StaticResource DarkGreyColor}"
+                                   ClassId="PPC"
+                                   FontSize="16"
+                                   TextChanged="Entry_TextChanged"                                   
+                                   Keyboard="Numeric"
+                                   Placeholder="ex : 9" 
+                                   Text="{Binding Interest.PricePerChild}"
+                                   Grid.Row="1"
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                <Entry.Effects>
+                                    <effects:CustomEntry/>
+                                </Entry.Effects>
+                            </Entry>
+                            <Label Text="€"
+                           FontSize="20"
+                           TextColor="{StaticResource LightGreyColor}"
+                           Grid.Row="1" 
+                           Grid.Column="1"/>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+                <!--#endregion-->
+                
+                <!--#region Opening Day -->
+                <StackLayout Margin="0,0,0,10">
+                    <Grid RowDefinitions="Auto"
+                          ColumnDefinitions="*,15">
+                        <Label TextColor="{StaticResource DarkGreyColor}" 
+                               Text="Opening days" 
+                               FontSize="16" 
+                               FontAttributes="Bold"                   
+                               Grid.Row="0" 
+                               Grid.Column="0"/>
+                        <Image Source="iconuparrow"
+                                     x:Name="ScheduleArrow"
+                                     HeightRequest="15"
+                                     WidthRequest="15"
+                                     Grid.Row="0" 
+                                     Grid.Column="1"/>
+                    </Grid>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ShowSchedule_Clicked" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+
+                <StackLayout x:Name="ScheduleEntry"
+                             IsVisible="False">
+                    <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                        <Label Text="Monday" 
+                               FontSize="16"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                IsToggled="{Binding Interest.IsMonday}" />
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                        <Label Text="Tuesday" 
+                               FontSize="16"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                IsToggled="{Binding Interest.IsTuesday}" />
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                        <Label Text="Wednesday" 
+                               FontSize="16"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding Interest.IsWednesday}" />
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                        <Label Text="Thursday" 
+                               FontSize="16"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding Interest.IsThursday}" />
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                        <Label Text="Friday" 
+                               FontSize="16"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding Interest.IsFriday}" />
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,10">
+                        <Label Text="Saturday" 
+                               FontSize="16"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding Interest.IsSaturday}" />
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto" 
+                          ColumnDefinitions="300,*" 
+                          Margin="0,0,0,15">
+                        <Label Text="Sunday" 
+                               FontSize="16"
+                               TextColor="{StaticResource DarkGreyColor}"                        
+                               Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" 
+                                Grid.Column="1" 
+                                 IsToggled="{Binding Interest.IsSunday}" />
+                    </Grid>
+
+                    <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,25" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                        <Grid RowDefinitions="Auto, 120" 
+                      ColumnDefinitions="*">
+                            <Label Text="Opening details" 
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                            <Editor TextColor="{StaticResource DarkGreyColor}"
+                                    FontSize="16"
+                                    VerticalOptions="EndAndExpand" 
+                                    HeightRequest="160" 
+                                    Text="{Binding Interest.Schedule}"
+                                    Placeholder="Write some words about opening or closing days... " 
+                                    Grid.Row="1" 
+                                    Grid.Column="0" 
+                                    Margin="0,0,0,-1">
+                                <Editor.Effects>
+                                    <effects:CustomEntry/>
+                                </Editor.Effects>
+                            </Editor>
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+                <!--#endregion-->
+
+                <!--#region Accessibility Area -->
+                <StackLayout Margin="0,0,0,10">
+                    <Grid RowDefinitions="Auto"
+                          ColumnDefinitions="*,15">
+                        <Label TextColor="{StaticResource DarkGreyColor}" 
+                               Text="Accessibilities" 
+                               FontSize="16" 
+                               FontAttributes="Bold"                   
+                               Grid.Row="0" 
+                               Grid.Column="0"/>
+                        <Image Source="iconuparrow"
+                                     x:Name="AccessibilitiesArrow"
+                                     HeightRequest="15"
+                                     WidthRequest="15"
+                                     Grid.Row="0" 
+                                     Grid.Column="1"/>
+                    </Grid>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ShowAccessibilities_Clicked" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                
+                <StackLayout x:Name="AccessibilitiesEntry"
+                         IsVisible="False">
+                    <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="300,*" 
+                  Margin="0,0,0,10">
+                        <Label Text="People with reduced mobility (PRM) friendly ?" 
+                       FontSize="16"
+                       TextColor="{StaticResource DarkGreyColor}"                        
+                       Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" BackgroundColor="White" 
+                        Grid.Column="1" 
+                        IsToggled="{Binding Interest.IsPRMFriendly}" />
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="300,*" 
+                  Margin="0,0,0,10">
+                        <Label Text="Stroller friendly ?"
+                       FontSize="16"
+                       TextColor="{StaticResource DarkGreyColor}"                         
+                       Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" BackgroundColor="White"
+                        Grid.Column="1" 
+                        IsToggled="{Binding Interest.IsStrollerFriendly}" />
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="300,*" 
+                  Margin="0,0,0,10">
+                        <Label Text="Children friendly ?"
+                       FontSize="16"
+                       TextColor="{StaticResource DarkGreyColor}"                        
+                       Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" BackgroundColor="White"
+                        Grid.Column="1" 
+                        IsToggled="{Binding Interest.IsChildFriendly}" />
+                    </Grid>
+
+                    <Grid RowDefinitions="Auto" 
+                  ColumnDefinitions="300,*" 
+                  Margin="0,0,0,10">
+                        <Label Text="Pet friendly ?"
+                       FontSize="16"
+                       TextColor="{StaticResource DarkGreyColor}"
+                       Grid.Column="0" />
+                        <Switch OnColor="{StaticResource ThemeColor}" Background="White"
+                        Grid.Column="1" 
+                        IsToggled="{Binding Interest.IsAnimalFriendly}"/>
+                    </Grid>
+                </StackLayout>
+                <!--#endregion-->
+
+                <!--#region Button Save and Update -->
+                <StackLayout VerticalOptions="EndAndExpand">
+                    <Button x:Name="SaveButton"
+                    Text="Save" 
+                    BackgroundColor="{StaticResource ThemeColor}" 
+                    TextColor="White" 
+                    Command="{Binding Save}"
+                    FontAttributes="Bold" 
+                    CornerRadius="5"
+                    Margin="0,35,0,0"/>
+
+                    <Button x:Name="UpdateButton"
+                    Text="Update" 
+                    BackgroundColor="{StaticResource ThemeColor}" 
+                    TextColor="White" 
+                    Command="{Binding Update}"
+                    FontAttributes="Bold" 
+                    CornerRadius="5"
+                    Margin="0,35,0,0"/>
+                </StackLayout>
+                <!--#endregion-->
+
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

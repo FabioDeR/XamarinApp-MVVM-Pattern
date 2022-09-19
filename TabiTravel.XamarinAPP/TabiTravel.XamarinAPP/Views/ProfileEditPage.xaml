@@ -1,0 +1,590 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.Views.ProfileEditPage"
+             xmlns:viewModels="clr-namespace:TabiTravel.XamarinAPP.ViewModels"
+             x:DataType="viewModels:UserVM"
+             xmlns:effects="clr-namespace:TabiTravel.XamarinAPP.Effects"
+             Title="Edit My Profile">
+    <ScrollView>
+        <StackLayout>
+            <StackLayout Margin="0,20,0,0"
+                         x:Name="PageContent"
+                         IsVisible="false">
+                <!--#region Picture Area -->
+                <StackLayout>
+                    <RelativeLayout WidthRequest="200" HeightRequest="200" HorizontalOptions="Center">
+                        <Frame HeightRequest="200" WidthRequest="200" Padding="0" CornerRadius="100">
+                            <Image Source="{Binding User.Avatar}" Aspect="AspectFill"></Image>
+                        </Frame>
+                        <StackLayout>
+                            <ImageButton Command="{Binding PostPhoto}" 
+                                     Source="buttoncamera" 
+                                     BackgroundColor="{StaticResource ThemeColor}" 
+                                     Margin="150,150,0,0" 
+                                     CornerRadius="20" 
+                                     HeightRequest="40" 
+                                     WidthRequest="40" 
+                                     Padding="9"></ImageButton>
+                        </StackLayout>
+                    </RelativeLayout>
+                </StackLayout>
+                <!--#endregion-->
+
+
+                <StackLayout Padding="20,40,20,30" VerticalOptions="FillAndExpand">
+                    <!--#region Personnal Area -->
+                    <StackLayout Margin="0,0,0,10">
+                        <Grid RowDefinitions="Auto"
+                          ColumnDefinitions="*,15">
+                            <Label TextColor="{StaticResource DarkGreyColor}" 
+                           Text="Personnal information" 
+                           FontSize="16" 
+                           FontAttributes="Bold"                   
+                           Grid.Row="0" 
+                           Grid.Column="0"/>
+                            <Image Source="iconuparrow"
+                                 x:Name="PersoInfoArrow"
+                                 HeightRequest="15"
+                                 WidthRequest="15"
+                                 Grid.Row="0" 
+                                 Grid.Column="1"/>
+                        </Grid>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShowPersoInfo_Clicked" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+
+                    <StackLayout x:Name="PersoInfoEntry"
+                                 IsVisible="False">
+                        <Frame HasShadow="False" 
+                               CornerRadius="5" 
+                               Padding="6" 
+                               Margin="0,0,0,10" 
+                               BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*">
+                                <Label Text="Firstname"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                                <Entry TextColor="{StaticResource DarkGreyColor}" 
+                                   Text="{Binding User.Firstname}"
+                                   FontSize="16"
+                                   Placeholder="ex : Atomium" 
+                                   Grid.Row="1" 
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                    <Entry.Effects>
+                                        <effects:CustomEntry/>
+                                    </Entry.Effects>
+                                </Entry>
+                            </Grid>
+                        </Frame>
+
+                        <Frame HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*">
+                                <Label Text="Lastname"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                                <Entry TextColor="{StaticResource DarkGreyColor}" 
+                                   Text="{Binding User.Lastname}"
+                                   FontSize="16"
+                                   Placeholder="ex : Atomium" 
+                                   Grid.Row="1" 
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                    <Entry.Effects>
+                                        <effects:CustomEntry/>
+                                    </Entry.Effects>
+                                </Entry>
+                            </Grid>
+                        </Frame>
+
+                        <Frame HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*">
+                                <Label Text="Birthday"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                                <DatePicker Date="{Binding User.Born}" 
+                                        Format="dd/MM/yyyy"
+                                        TextColor="{StaticResource DarkGreyColor}"
+                                        FontSize="16"
+                                        MinimumDate="01/01/1900" 
+                                        MaximumDate="12/31/2005" 
+                                        Margin="0,12,0,-15">
+                                    <DatePicker.Effects>
+                                        <effects:CustomEntry/>
+                                    </DatePicker.Effects>
+                                </DatePicker>
+                            </Grid>
+                        </Frame>
+
+                        <Grid RowDefinitions="Auto" ColumnDefinitions="300,*" Margin="0,0,0,20">
+                            <Label TextColor="{StaticResource DarkGreyColor}" Text="Are you a person with reduced mobility (PRM) ?" Grid.Column="0" />
+                            <Switch OnColor="{StaticResource ThemeColor}" Grid.Column="1" IsToggled="{Binding User.IsPRM}" />
+                        </Grid>
+
+                    </StackLayout>
+
+                    <!--#endregion-->
+
+                    <!--#region Bio Area -->
+                    <StackLayout Margin="0,0,0,10">
+                        <Grid RowDefinitions="Auto"
+                          ColumnDefinitions="*,15">
+                            <Label TextColor="{StaticResource DarkGreyColor}" 
+                           Text="Bio" 
+                           FontSize="16" 
+                           FontAttributes="Bold"                   
+                           Grid.Row="0" 
+                           Grid.Column="0"/>
+                            <Image Source="iconuparrow"
+                                 x:Name="BioArrow"
+                                 HeightRequest="15"
+                                 WidthRequest="15"
+                                 Grid.Row="0" 
+                                 Grid.Column="1"/>
+                        </Grid>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShowBio_Clicked" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+
+                    <StackLayout x:Name="BioEntry"
+                             IsVisible="False">
+                        <Frame HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,25" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, 120" 
+                              ColumnDefinitions="*">
+                                <Label Text="About you" 
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                                <Editor TextColor="{StaticResource DarkGreyColor}"
+                                    FontSize="16"
+                                    VerticalOptions="EndAndExpand" 
+                                    HeightRequest="160" 
+                                    Text="{Binding User.Description}"
+                                    Placeholder="Write some words about you ... " 
+                                    Grid.Row="1" 
+                                    Grid.Column="0" 
+                                    Margin="0,0,0,-1">
+                                    <Editor.Effects>
+                                        <effects:CustomEntry/>
+                                    </Editor.Effects>
+                                </Editor>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                    <!--#endregion-->
+
+                    <!--#region Location Area -->
+                    <StackLayout Margin="0,0,0,10">
+                        <Grid RowDefinitions="Auto"
+                      ColumnDefinitions="*,15">
+                            <Label TextColor="{StaticResource DarkGreyColor}" 
+                           Text="Location Informations" 
+                           FontSize="16" 
+                           FontAttributes="Bold"                   
+                           Grid.Row="0" 
+                           Grid.Column="0"/>
+                            <Image Source="iconuparrow"
+                                 x:Name="LocationInfoArrow"
+                                 HeightRequest="15"
+                                 WidthRequest="15"
+                                 Grid.Row="0" 
+                                 Grid.Column="1"/>
+                        </Grid>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShowLocationInfo_Clicked" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+
+                    <StackLayout x:Name="LocationInfoEntry"
+                             IsVisible="False">
+                        <Frame HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*">
+                                <Label Text="Address" 
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   Margin="5,0,0,-14" />
+                                <Entry TextColor="{StaticResource DarkGreyColor}"
+                                   FontSize="16"
+                                   Placeholder="ex : Place de l'Atomium, 1" 
+                                   Text="{Binding User.Address}"
+                                   Grid.Row="1" 
+                                   Grid.Column="0" 
+                                   Margin="0,0,0,-8">
+                                    <Entry.Effects>
+                                        <effects:CustomEntry/>
+                                    </Entry.Effects>
+                                </Entry>
+                            </Grid>
+                        </Frame>
+
+
+                        <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                                <Label Text="Zip Code" 
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                                <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Placeholder="ex : 1020" 
+                           Keyboard="Numeric"
+                           Text="{Binding User.ZipCode}"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-8">
+                                    <Entry.Effects>
+                                        <effects:CustomEntry/>
+                                    </Entry.Effects>
+                                </Entry>
+                            </Grid>
+                        </Frame>
+
+
+                        <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,10" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                                <Label Text="City" 
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                                <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Placeholder="ex : Bruxelles" 
+                           Text="{Binding User.City}"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-8">
+                                    <Entry.Effects>
+                                        <effects:CustomEntry/>
+                                    </Entry.Effects>
+                                </Entry>
+                            </Grid>
+                        </Frame>
+
+                        <Frame HasShadow="False" 
+                           CornerRadius="5" 
+                           Padding="6" 
+                           Margin="0,0,0,10" 
+                           BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="16,Auto"
+                              ColumnDefinitions="*,15"
+                              Padding="5,0,0,5">
+                                <Label Text="Country"
+                                   Margin="0,0,0,-6"
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}"                   
+                                   Grid.Row="0" 
+                                   Grid.Column="0"/>
+                                <Label TextColor="{StaticResource DarkGreyColor}"
+                                   Text="{Binding User.Country}" 
+                                   FontSize="16"                   
+                                   Grid.Row="1" 
+                                   Grid.Column="0"/>
+                                <Image Source="iconuparrow"
+                                   x:Name="CountryArrow"
+                                   HeightRequest="15"
+                                   WidthRequest="15"
+                                   BackgroundColor="Transparent"
+                                   Grid.Row="1" 
+                                   Grid.Column="1">
+                                </Image>
+                            </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Goto}" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+
+                        <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,25" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                                <Label Text="Phone" 
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                                <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Placeholder="ex : +3221234567"
+                           Keyboard="Telephone"
+                           Text="{Binding User.Phone}"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-8">
+                                    <Entry.Effects>
+                                        <effects:CustomEntry/>
+                                    </Entry.Effects>
+                                </Entry>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                    <!--#endregion-->
+
+                    <!--#region Availability Area -->
+
+                    <StackLayout Margin="0,0,0,10">
+                        <Grid RowDefinitions="Auto"
+                  ColumnDefinitions="*,15">
+                            <Label TextColor="{StaticResource DarkGreyColor}" 
+                   Text="Availabilities" 
+                   FontSize="16" 
+                   FontAttributes="Bold"                   
+                   Grid.Row="0" 
+                   Grid.Column="0"/>
+                            <Image Source="iconuparrow"
+                             x:Name="AvailibilityArrow"
+                             HeightRequest="15"
+                             WidthRequest="15"
+                             BackgroundColor="Transparent"
+                             Grid.Row="0" 
+                             Grid.Column="1"/>
+                        </Grid>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShowAvailibility_Clicked" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                    <!--#endregion-->
+
+                    <!--#region Account Area -->
+                    <StackLayout Margin="0,0,0,10">
+                        <Grid RowDefinitions="Auto"
+                          ColumnDefinitions="*,15">
+                            <Label TextColor="{StaticResource DarkGreyColor}" 
+                               Text="Account Information" 
+                               FontSize="16" 
+                               FontAttributes="Bold"                   
+                               Grid.Row="0" 
+                               Grid.Column="0"/>
+                            <Image Source="iconuparrow"
+                                     x:Name="AccountInfoArrow"
+                                     HeightRequest="15"
+                                     WidthRequest="15"
+                                     Grid.Row="0" 
+                                     Grid.Column="1"/>
+                        </Grid>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShowAccountInfo_Clicked" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+
+                    <StackLayout x:Name="AccountInfoEntry"
+                         IsVisible="False">
+                        <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   Margin="0,0,0,25" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                                <Label Text="Email" 
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                                <Entry TextColor="{StaticResource DarkGreyColor}"
+                           FontSize="16"
+                           Placeholder="ex : john@doe.com"
+                           Keyboard="Telephone"
+                           Text="{Binding User.Mail}"
+                           Grid.Row="1" 
+                           Grid.Column="0" 
+                           Margin="0,0,0,-8">
+                                    <Entry.Effects>
+                                        <effects:CustomEntry/>
+                                    </Entry.Effects>
+                                </Entry>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                    <!--#endregion-->
+
+                    <!--#region Language Area -->
+                    <StackLayout Margin="0,0,0,10">
+                        <Grid RowDefinitions="Auto"
+                          ColumnDefinitions="*,15">
+                            <Label TextColor="{StaticResource DarkGreyColor}" 
+                               Text="Languages" 
+                               FontSize="16" 
+                               FontAttributes="Bold"                   
+                               Grid.Row="0" 
+                               Grid.Column="0"/>
+                            <Image Source="iconuparrow"
+                                     x:Name="LanguageArrow"
+                                     HeightRequest="15"
+                                     WidthRequest="15"
+                                     Grid.Row="0" 
+                                     Grid.Column="1"/>
+                        </Grid>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShowLanguage_Clicked" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+
+                    <StackLayout x:Name="LanguageEntry"
+                         IsVisible="False">
+                        <Frame HasShadow="False" 
+                               CornerRadius="5" 
+                               Padding="6" 
+                               Margin="0,0,0,10" 
+                               BorderColor="{StaticResource LightGreyColor}">
+                            <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,25,2">
+                                <Label Text="Mother Language"                                   
+                                   FontSize="14"
+                                   TextColor="{StaticResource LightGreyColor}"                          
+                                   Margin="5,0,0,-14" />
+                                <Picker x:Name="SelectMotherLang"  ItemsSource="{Binding MotherLanguesPicker}"
+                             SelectedItem="{Binding SelectedMotherLanguage}"                           
+                             TextColor="{StaticResource DarkGreyColor}"
+                             FontSize="16" 
+                             Margin="0,12,0,-15">
+                                    <Picker.Effects>
+                                        <effects:CustomEntry/>
+                                    </Picker.Effects>
+                                </Picker>
+                            </Grid>
+                        </Frame>
+
+                        <Frame HasShadow="False" CornerRadius="5" Padding="6" Margin="0,0,0,10" BorderColor="Silver"    >
+                            <Grid RowDefinitions="Auto, Auto" 
+                              ColumnDefinitions="*,25,2">
+                                <Label Text="Other Language 1"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                                <ImageButton 
+                                Source="iconcross"
+                                HeightRequest="15"
+                                WidthRequest="15"       
+                                Command="{Binding UnSelectedOtherlanguage1}"
+                                BackgroundColor="Transparent"
+                                Grid.Row="0" 
+                                Grid.Column="1"
+                             />
+                                <Picker  ItemsSource="{Binding FirstLanguagePicker}" 
+                             SelectedItem="{Binding SelectedFirstLanguage}"                             
+                             TextColor="{StaticResource DarkGreyColor}"
+                             FontSize="16" 
+                             Margin="0,12,0,-15">
+                                    <Picker.Effects>
+                                        <effects:CustomEntry/>
+                                    </Picker.Effects>
+                                </Picker>
+                            </Grid>
+                        </Frame>
+
+                        <Frame HasShadow="False" CornerRadius="5" Padding="6" Margin="0,0,0,10" BorderColor="Silver"    >
+                            <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*,25,2">
+                                <Label Text="Other Language 2"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                                <ImageButton 
+                                Source="iconcross"
+                                HeightRequest="15"
+                                WidthRequest="15"       
+                                Command="{Binding UnSelectedOtherLanguage2}"
+                                BackgroundColor="Transparent"
+                                Grid.Row="0" 
+                                Grid.Column="1"
+                             />
+                                <Picker  ItemsSource="{Binding SecondLanguagePicker}" 
+                             SelectedItem="{Binding SelectedSecondLanguage}"
+                             TextColor="{StaticResource DarkGreyColor}"
+                             FontSize="16" 
+                             Margin="0,12,0,-15">
+                                    <Picker.Effects>
+                                        <effects:CustomEntry/>
+                                    </Picker.Effects>
+                                </Picker>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                    <!--#endregion-->
+
+                    <Button Command="{Binding Update}" 
+                        Text="Update" 
+                        BackgroundColor="{StaticResource ThemeColor}" 
+                        TextColor="White" 
+                        FontAttributes="Bold" 
+                        CornerRadius="5"
+                        VerticalOptions="EndAndExpand"
+                        Margin="0,35,0,0"/>
+
+                </StackLayout>
+            </StackLayout>
+            <!--#region Loader -->
+            <StackLayout x:Name="Loader" 
+                         IsVisible="False" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="FillAndExpand">
+                <ActivityIndicator x:Name="activityIndicator" 
+                                   Color="{StaticResource ThemeColor}" 
+                                   IsRunning="True"
+                                   WidthRequest="45" 
+                                   HeightRequest="45"/>
+            </StackLayout>
+            <!--#endregion-->
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

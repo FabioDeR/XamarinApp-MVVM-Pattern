@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             x:Name="thisPage"
+             x:Class="TabiTravel.XamarinAPP.Views.AppLanguageEditPage">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation 
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"/>
+    </pages:PopupPage.Animation>
+
+    <StackLayout HeightRequest="500"
+                 WidthRequest="250"
+                 Padding="20"
+                 VerticalOptions="Center"
+                 HorizontalOptions="Center"
+                 BackgroundColor="White">
+        <StackLayout x:Name="PageContent"
+                     IsVisible="false">
+            <SearchBar Placeholder="Search..." FontSize="16" HorizontalOptions="CenterAndExpand" PlaceholderColor="{StaticResource LightGreyColor}" TextColor="{StaticResource GreyColor}"/>
+            <StackLayout HorizontalOptions="Center" VerticalOptions="FillAndExpand" Padding="10" >
+                <ListView HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"
+                      HasUnevenRows="True" ItemsSource="{Binding LanguageList}" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" Padding="5" VerticalOptions="FillAndExpand"
+                                MinimumHeightRequest="150">
+                                    <StackLayout Orientation="Vertical" Padding="2" VerticalOptions="Center">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference thisPage},Path=BindingContext.Update}"
+                                                              CommandParameter="{Binding .}"/>
+                                        </StackLayout.GestureRecognizers>
+                                        <FlexLayout Margin="4" Direction="Row" JustifyContent="SpaceBetween">
+                                            <CheckBox IsEnabled="False" IsChecked="{Binding IsSelected}" />
+                                            <Image Margin="10,5" HeightRequest="36" VerticalOptions="Center">
+                                                <Image.Triggers>
+                                                    <DataTrigger TargetType="Image" Binding="{Binding LanguageIso}" Value="EN">
+                                                        <Setter Property="Source" Value="enusflag"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Image" Binding="{Binding LanguageIso}" Value="FR">
+                                                        <Setter Property="Source" Value="frflag"/>
+                                                    </DataTrigger>
+                                                </Image.Triggers>
+                                            </Image>
+                                        </FlexLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+        <!--#region Loader -->
+        <StackLayout x:Name="Loader" 
+                         IsVisible="False" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="FillAndExpand">
+            <ActivityIndicator x:Name="activityIndicator" 
+                                   Color="{StaticResource ThemeColor}" 
+                                   IsRunning="True"
+                                   WidthRequest="45" 
+                                   HeightRequest="45"/>
+        </StackLayout>
+        <!--#endregion-->
+    </StackLayout>
+</pages:PopupPage>

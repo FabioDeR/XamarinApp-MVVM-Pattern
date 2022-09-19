@@ -1,0 +1,83 @@
+﻿@page "/guide/translatelistoverview/{Id}/{EnumInt}/{MotherLanguage}"
+@layout GuideLayout
+@using TabiTravel.UI.Shared.Component
+
+<h3 class="my-3">Translate list overview</h3>
+
+@if (Loading)
+{
+        <Loader />
+}
+else
+{
+
+    <div class="d-inline-block w-100 text-end mt-4">
+        <a href="/guide/translateedi/@Id/@Enumint" class="btn btn-dark">New</a>
+        @switch(@Enumint){
+                case "1":
+                <a href="/guide/interestlistoverview" class="btn btn-dark mx-2">Cancel</a>
+                break;
+                case "2":
+                <a href="/guide/steplistoverview/@TourId/@MotherLanguage" class="btn btn-dark mx-2">Cancel</a>
+                break;
+                case "3":
+                <a href="/guide/tourlistoverview" class="btn btn-dark mx-2">Cancel</a>
+                break;
+        }
+    </div>
+       <table class="table table-hover my-4">
+            <thead>
+                <tr>
+                    <th class="col-2 h5 font-weight-bold" scope="col">Language <i @onclick="@(() => SortBy("language"))" class="oi oi-elevator"></i></th>
+                    <th class="col-6 h5 font-weight-bold" scope="col">Content </th
+                <th class="col-2 h5 font-weight-bold" scope="col">MotherLanguage</th
+                <th class="col-2 text-end h5 font-weight-bold" scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+            @if (TranslateVMs == null)
+            {
+                        <tr>
+                            <td class="font-italic">@_message</td>
+                            <td></td>
+                        </tr>
+            }
+            else
+            {
+                @foreach (var item in TranslateVMs)
+                {
+                       <tr>
+                           <td>@item.LanguageIso</td>
+                           <td>@item.Content</td>
+                           @if (@item.MotherLanguage)
+                            {
+                                <td><span class="oi oi-check"></span> </td>
+                            }
+                           else
+                           {
+                                <td></td>
+                           }
+                          <td class="text-end">
+                          @switch (Enumint)
+                          {
+                                case "1":
+                                    <a class="btn btn-primary" title="Edit" href="guide/translateedit/@item.InterestId/@Enumint/@item.LanguageIso"><span class="oi oi-pencil"></span></a>
+                                    <button class="btn btn-danger" title="Delete" @onclick="() => Delete(item.TranslateId, item.LanguageIso)"><span class="oi oi-trash"></span></button>
+                                    break;
+                                case "2":
+                                    <a class="btn btn-primary" title="Edit" href="guide/translateedit/@item.StepId/@Enumint/@item.LanguageIso"><span class="oi oi-pencil"></span></a>
+                                    <button class="btn btn-danger" title="Delete" @onclick="() => Delete(item.TranslateId, item.LanguageIso)"><span class="oi oi-trash"></span></button>
+                                    break;
+                                case "3":
+                                    <a class="btn btn-primary" title="Edit" href="guide/translateedit/@item.TourId/@Enumint/@item.LanguageIso"><span class="oi oi-pencil"></span></a>
+                                    <button class="btn btn-danger" title="Delete" @onclick="() => Delete(item.TranslateId, item.LanguageIso)"><span class="oi oi-trash"></span></button>
+                                    break;
+                            }
+                            </td>
+                          </tr>
+                }
+            }
+            </tbody>
+        </table>
+}
+

@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.Views.ProfileOverviewPage"
+             xmlns:viewModels="clr-namespace:TabiTravel.XamarinAPP.ViewModels"
+             x:DataType="viewModels:UserVM"
+             Title="Profile Overview">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+                 IconImageSource="icontoolbaredit"                 
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <StackLayout>
+            <StackLayout x:Name="PageContent" 
+                         IsVisible="false" 
+                         Padding="15">
+
+                <!--#region Picture Area -->
+                <StackLayout WidthRequest="150" HeightRequest="150" HorizontalOptions="Center">
+                    <Frame HeightRequest="150" WidthRequest="150" Padding="0" CornerRadius="75">
+                        <Image Source="{Binding User.Avatar}" Aspect="AspectFill"></Image>
+                    </Frame>
+                </StackLayout>
+                <!--#endregion-->
+
+                <!--#region Personnal Area -->
+                <StackLayout>
+                    <Label TextColor="{StaticResource DarkGreyColor}" 
+                       FontSize="22" 
+                       FontAttributes="Bold"                      
+                       HorizontalOptions="CenterAndExpand">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding User.Firstname}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding User.Lastname}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label TextColor="{StaticResource GreyColor}" 
+                       HorizontalOptions="CenterAndExpand"
+                       Margin="0,-5,0,20">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="@" />
+                                <Span Text="{Binding User.Nickname}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+                <FlexLayout JustifyContent="SpaceBetween">
+                    <StackLayout x:Name="GuideDetail">
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="labeliconcompass"
+                           HeightRequest="14"/>
+                            <Label TextColor="{StaticResource GreyColor}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Guide since "/>
+                                        <Span Text="{Binding User.DateStartGuide ,StringFormat='{0:MMMM yyyy}'}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal" Margin="0,-8,0,0">
+                            <Image HeightRequest="32">
+                                <Image.Triggers>
+                                    <DataTrigger TargetType="Image" Binding="{Binding User.MotherLanguage}" Value="EN">
+                                        <Setter Property="Source" Value="enusflag"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Image" Binding="{Binding User.MotherLanguage}" Value="FR">
+                                        <Setter Property="Source" Value="frflag"/>
+                                    </DataTrigger>
+                                </Image.Triggers>
+                            </Image>
+
+                            <Image HeightRequest="32">
+                                <Image.Triggers>
+                                    <DataTrigger TargetType="Image" Binding="{Binding User.AnotherLanguage1}" Value="EN">
+                                        <Setter Property="Source" Value="enusflag"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image" Binding="{Binding User.AnotherLanguage1}" Value="FR">
+                                        <Setter Property="Source" Value="frflag"/>
+                                    </DataTrigger>
+                                </Image.Triggers>
+                            </Image>
+
+                            <Image HeightRequest="32">
+                                <Image.Triggers>
+                                    <DataTrigger TargetType="Image" Binding="{Binding User.AnotherLanguage2}" Value="EN">
+                                        <Setter Property="Source" Value="enusflag"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image" Binding="{Binding User.AnotherLanguage2}" Value="FR">
+                                        <Setter Property="Source" Value="frflag"/>
+                                    </DataTrigger>
+                                </Image.Triggers>
+                            </Image>
+                        </StackLayout>
+                    </StackLayout>
+                </FlexLayout>
+
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal"
+                         Margin="0,0,0,20">
+                        <Image Source="labeliconhome2"
+                           HeightRequest="14"/>
+                        <Label TextColor="{StaticResource GreyColor}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding User.City}"/>
+                                    <Span Text=", "/>
+                                    <Span Text="{Binding User.Country}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+                </StackLayout>
+                <!--#endregion-->
+
+                <!--#region About Area -->
+                <Label Text="About me" 
+                       TextColor="{StaticResource DarkGreyColor}" 
+                       FontSize="16" 
+                       FontAttributes="Bold" />
+                <Label Text="{Binding User.Description}" 
+                   Margin="0,0,0,20" />
+                <!--#endregion-->
+
+                <!--#region Rating Area -->
+                <!--<Label Text="Rating" 
+                       TextColor="Black" 
+                       FontSize="16" 
+                       FontAttributes="Bold" />
+                <Label Text="⭐⭐⭐⭐⭐"
+                   FontSize="16"
+                   Margin="0,0,0,20" />-->
+                <!--#endregion-->
+
+            </StackLayout>
+
+            <!--#region Loader -->
+            <StackLayout x:Name="Loader" 
+                         IsVisible="False" 
+                         VerticalOptions="CenterAndExpand" 
+                         HorizontalOptions="FillAndExpand">
+                <ActivityIndicator x:Name="activityIndicator" 
+                                   Color="{StaticResource ThemeColor}" 
+                                   IsRunning="True"
+                                   WidthRequest="45" 
+                                   HeightRequest="45"/>
+            </StackLayout>
+            <!--#endregion-->
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

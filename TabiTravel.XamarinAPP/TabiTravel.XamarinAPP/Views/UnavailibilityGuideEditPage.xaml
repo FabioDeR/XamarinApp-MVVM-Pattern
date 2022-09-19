@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:effects="clr-namespace:TabiTravel.XamarinAPP.Effects"
+             x:Class="TabiTravel.XamarinAPP.Views.UnavailibilityGuideEditPage"
+             Title="Unavailability">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="DeleteIcon"
+                 IconImageSource="icontoolbartrash"                 
+                 Order="Primary"
+                 Priority="0"
+                 Command="{Binding DeleteUnavailabilityGuide}"/>
+    </ContentPage.ToolbarItems>
+    
+    <StackLayout Padding="20">
+
+        <StackLayout Margin="0,0,0,10">
+            <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                    <Label Text="From"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                    <DatePicker x:Name="DateStartPicker"  
+                                Date="{Binding UnavailabilityGuideEditVM.DateStart}"
+                                Format="D"
+                                TextColor="{StaticResource DarkGreyColor}"
+                                FontSize="16"
+                                Margin="0,12,0,-15">
+                        <DatePicker.Effects>
+                            <effects:CustomEntry/>
+                        </DatePicker.Effects>
+                    </DatePicker>
+                </Grid>
+            </Frame>
+        </StackLayout>
+        
+        <StackLayout Margin="0,0,0,10">
+            <Frame HasShadow="False" 
+                   CornerRadius="5" 
+                   Padding="6" 
+                   BorderColor="{StaticResource LightGreyColor}">
+                <Grid RowDefinitions="Auto, Auto" 
+                      ColumnDefinitions="*">
+                    <Label Text="To"
+                           FontSize="14"
+                           TextColor="{StaticResource LightGreyColor}" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           Margin="5,0,0,-14" />
+                    <DatePicker x:Name="DateEndPicker"  
+                                Date="{Binding UnavailabilityGuideEditVM.DateEnd}"
+                                Format="D"
+                                TextColor="{StaticResource DarkGreyColor}"
+                                FontSize="16"
+                                Margin="0,12,0,-15">
+                        <DatePicker.Effects>
+                            <effects:CustomEntry/>
+                        </DatePicker.Effects>
+                    </DatePicker>
+                </Grid>
+            </Frame>
+        </StackLayout>
+
+        <StackLayout VerticalOptions="EndAndExpand"
+                     Margin="0,35,0,0">
+            <Button x:Name="SaveButton" 
+                    Text="Save"
+                    Command="{Binding AddUnavailabilityGuide}"
+                    BackgroundColor="{StaticResource ThemeColor}" 
+                    TextColor="White" 
+                    FontAttributes="Bold" 
+                    CornerRadius="5"/>            
+            
+            <Button x:Name="UpdateButton"
+                    Text="Update"
+                    Command="{Binding UpdateUnavailabilityGuide}"
+                    BackgroundColor="{StaticResource ThemeColor}" 
+                    TextColor="White" 
+                    FontAttributes="Bold" 
+                    CornerRadius="5"/>
+        </StackLayout>
+
+    </StackLayout>
+</ContentPage>

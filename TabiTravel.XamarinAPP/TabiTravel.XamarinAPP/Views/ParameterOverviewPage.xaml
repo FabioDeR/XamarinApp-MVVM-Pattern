@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabiTravel.XamarinAPP.Views.ParameterOverviewPage"
+             Title="Parameters">
+    <StackLayout Padding="20">
+
+        <StackLayout>
+            <StackLayout>
+                <FlexLayout Direction="Row" 
+                    JustifyContent="SpaceBetween">
+                    <Label Text="App Language"
+                   FontSize="16" 
+                   FontAttributes="Bold" 
+                   TextColor="{StaticResource DarkGreyColor}"/>
+                    <Image Source="iconarrowright"
+                         HeightRequest="15"
+                         WidthRequest="15"/>
+                </FlexLayout>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="AppLangEditButton_Clicked" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </StackLayout>
+        <Label Text="Change the app's default language"
+               TextColor="{StaticResource GreyColor}"
+               Margin="0,0,0,20"/>
+    </StackLayout>
+</ContentPage>
